@@ -1,0 +1,25 @@
+ # cd
+alias ..="cd ../"
+alias ....="cd ../../"
+alias ......="cd ../../../"
+alias home="cd ~/"
+
+# git
+alias glog="git log --oneline"
+
+# rc
+alias vimrc="vim ~/.vimrc"
+alias zshrc="vim ~/.zshrc"
+alias aliasrc="vim ~/.aliasrc"
+
+# open app
+alias chrome="open -a /Applications/Google\ Chrome.app"
+alias mine="open -a /Applications/RubyMine.app"
+alias slack="open -a /Applications/Slack.app"
+
+# mkdir+cd
+builtin alias mkdir="mkdir+cd"
+function mkdir+cd() {
+	#ban recursion method call
+	command mkdir $1 && cd $1 && ls;
+}
