@@ -16,6 +16,7 @@ alias aliasrc="vim ~/.aliasrc"
 alias chrome="open -a /Applications/Google\ Chrome.app"
 alias mine="open -a /Applications/RubyMine.app"
 alias slack="open -a /Applications/Slack.app"
+alias vscode="open -a /Applications/Visual\ Studio\ Code.app"
 
 # mkdir+cd
 builtin alias mkdir="mkdir+cd"
