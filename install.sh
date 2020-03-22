@@ -1,9 +1,7 @@
 #!/bin/zsh
 
-# add submodule
-git submodule update --init --recursive
-
 # prezto
+git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 setopt EXTENDED_GLOB
 for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
   ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
@@ -13,11 +11,10 @@ done
 ln -sf ~/dotfiles/vim/.vimrc ~/.vimrc
 ln -sf ~/dotfiles/vim/.vim/colors ~/.vim/colors
 ln -sf ~/dotfiles/zsh/.zshrc ~/.zshrc
-ln -sf ~/dotfiles/zsh/.zpreztorc ~/.zpreztorc
-
 
 # change shell
 chsh -s $(which zsh)
 source ~/.zshrc
-source ~/.zpreztorc
 
+# echo
+echo "change theme to powerlevel10k : ~/.zpreztorc";
