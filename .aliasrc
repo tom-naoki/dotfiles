@@ -5,7 +5,11 @@ alias ......="cd ../../../"
 alias home="cd ~/"
 
 # git
-alias glog="git log --oneline"
+alias g="git"
+alias tb="git symbolic-ref --short HEAD|tr -d \"\\n\""
+
+# bundler
+alias be="bundle exec"
 
 # rc
 alias vimrc="vim ~/.vimrc"
@@ -24,3 +28,4 @@ function mkdir+cd() {
 	#ban recursion method call
 	command mkdir $1 && cd $1 && ls;
 }
+
