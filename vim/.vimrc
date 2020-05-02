@@ -9,6 +9,11 @@ endif
 
 call neobundle#begin(expand('~/.vim/bundle'))
 
+" 自動で閉じる
+NeoBundle 'tpope/vim-endwise'
+" ファイルタブ
+NeoBundle 'scrooloose/nerdtree'
+
 call neobundle#end()
 
 NeoBundleCheck
@@ -64,3 +69,5 @@ noremap <C-e> <Esc>$
 noremap <C-a> <Esc>^
 vnoremap <C-e> $
 vnoremap <C-a> ^
+" ファイルタブを開く
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
