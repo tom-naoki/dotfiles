@@ -28,7 +28,15 @@ setopt auto_cd
 # Tab で候補からパス名を選択できるようになる
 zstyle ':completion:*:default' menu select=1
 
+#peco
+function peco-history-selection() {
+    BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
+    CURSOR=$#BUFFER
+    zle reset-prompt
+}
 
+zle -N peco-history-selection
+bindkey '^R' peco-history-selection
 
 # zplug
 if [[ ! -d ~/.zplug ]];then
