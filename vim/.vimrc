@@ -1,3 +1,19 @@
+" NeoBundle
+if has('vim_starting')
+  if &compatible
+    set nocompatible
+  endif
+
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+call neobundle#begin(expand('~/.vim/bundle'))
+
+call neobundle#end()
+
+NeoBundleCheck
+
+
 " 文字コードをUFT-8に設定
 set fenc=utf-8
 " スクロール速度を速く設定
@@ -40,7 +56,6 @@ set smartcase
 set incsearch
 " 検索時に最後まで行ったら最初に戻る
 set wrapscan
-
 
 " Ctrl+a Ctrol+e で行頭、行末に移動
 inoremap <C-e> <Esc>$a
