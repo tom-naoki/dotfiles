@@ -71,3 +71,6 @@ vnoremap <C-e> $
 vnoremap <C-a> ^
 " ファイルタブを開く
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
+" カッコ補完
+inoremap { {}<LEFT>
+inoremap ( ()<LEFT>
