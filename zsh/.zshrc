@@ -28,7 +28,7 @@ setopt auto_cd
 # Tab で候補からパス名を選択できるようになる
 zstyle ':completion:*:default' menu select=1
 
-#peco
+# peco
 function peco-history-selection() {
     BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
     CURSOR=$#BUFFER
@@ -37,6 +37,12 @@ function peco-history-selection() {
 
 zle -N peco-history-selection
 bindkey '^R' peco-history-selection
+
+function peco-git-checkout {
+  git branch --sort=-authordate | peco | xargs git checkout
+}
+zle -N peco-git-checkout
+bindkey '^O' peco-git-checkout
 
 # zplug
 if [[ ! -d ~/.zplug ]];then
@@ -50,11 +56,12 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "b4b4r07/enhancd", use:"init.sh"
 
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
     if read -q; then
-        echo; zplug install
+      echo; zplug install
     fi
 fi
 
