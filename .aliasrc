@@ -6,7 +6,13 @@ alias home="cd ~/"
 
 # git
 alias g="git"
-alias tb="git symbolic-ref --short HEAD|tr -d \"\\n\""
+alias tb="git symbolic-ref --short HEAD|tr -d \"\\n\" && git symbolic-ref --short HEAD|tr -d \"\\n\" | pbcopy"
+alias master="git checkout master"
+alias gs="g status"
+alias gcm="g cm"
+alias grebase="g rebase"
+alias gpush="g push"
+alias glog="g logn"
 
 # bundler
 alias be="bundle exec"
@@ -15,6 +21,9 @@ alias be="bundle exec"
 alias vimrc="vim ~/.vimrc"
 alias zshrc="vim ~/.zshrc"
 alias aliasrc="vim ~/.aliasrc"
+
+# rm
+alias rm="rm -v"
 
 # open app
 alias chrome="open -a /Applications/Google\ Chrome.app"
