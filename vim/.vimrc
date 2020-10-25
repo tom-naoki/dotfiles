@@ -1,23 +1,16 @@
-" NeoBundle
-if has('vim_starting')
-  if &compatible
-    set nocompatible
-  endif
+" プラグインのセットアップ
+call plug#begin('~/.vim/plugged')
 
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
+" ファイルタブを表示
+Plug 'scrooloose/nerdtree'
+" 自動でend補完
+Plug 'tpope/vim-endwise'
+" インデントに色を追加
+Plug 'nathanaelkane/vim-indent-guides'
+" vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
+let g:indent_guides_enable_on_vim_startup = 1
 
-call neobundle#begin(expand('~/.vim/bundle'))
-
-" 自動で閉じる
-NeoBundle 'tpope/vim-endwise'
-" ファイルタブ
-NeoBundle 'scrooloose/nerdtree'
-
-call neobundle#end()
-
-NeoBundleCheck
-
+call plug#end()
 
 " 文字コードをUFT-8に設定
 set fenc=utf-8
@@ -44,6 +37,11 @@ nnoremap k gk
 " シンタックスハイライトの有効化
 syntax enable
 
+" インデント
+set autoindent " 改行時に前の行のインデントを継続する
+set smartindent " 改行時に前の行の構文をチェックし次の行のインデントを増減する
+set shiftwidth=2 " Vimが挿入するインデントの幅
+set tabstop=2 " タブ文字の表示幅
 
 " 不可視文字を可視化(タブが「▸-」と表示される)
 set list listchars=tab:\▸\-
@@ -70,7 +68,10 @@ noremap <C-a> <Esc>^
 vnoremap <C-e> $
 vnoremap <C-a> ^
 " ファイルタブを開く
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
+nnoremap <silent><C-f> :NERDTree<CR>
 " カッコ補完
 inoremap { {}<LEFT>
 inoremap ( ()<LEFT>
+" クオテーション補完
+inoremap ' ''<LEFT>
+inoremap " ""<LEFT>
