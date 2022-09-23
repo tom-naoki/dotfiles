@@ -17,6 +17,8 @@ set fenc=utf-8
 " スクロール速度を速く設定
 set lazyredraw
 
+" vim のコピーをクリップボードに
+set clipboard+=unnamed
 
 " colorscheme設定
 colorscheme hybrid
