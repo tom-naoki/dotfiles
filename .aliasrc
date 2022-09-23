@@ -3,16 +3,15 @@ alias ..="cd ../"
 alias ....="cd ../../"
 alias ......="cd ../../../"
 alias home="cd ~/"
+alias other="cd /Users/kuratomi/Desktop/other"
+alias desktop="cd /Users/kuratomi/Desktop"
 
 # git
 alias g="git"
-alias tb="git symbolic-ref --short HEAD|tr -d \"\\n\" && git symbolic-ref --short HEAD|tr -d \"\\n\" | pbcopy"
 alias master="git checkout master"
-alias gs="g status"
-alias gcm="g cm"
-alias grebase="g rebase"
-alias gpush="g push"
-alias glog="g logn"
+
+# rails
+alias rrn="rails runner"
 
 # bundler
 alias be="bundle exec"
@@ -23,18 +22,15 @@ alias zshrc="vim ~/.zshrc"
 alias aliasrc="vim ~/.aliasrc"
 
 # rm
-alias rm="rm -v"
+alias rm="rm -i"
 
 # open app
 alias chrome="open -a /Applications/Google\ Chrome.app"
 alias mine="open -a /Applications/RubyMine.app"
 alias slack="open -a /Applications/Slack.app"
 alias vscode="open -a /Applications/Visual\ Studio\ Code.app"
+alias coteditor='open $1 -a "/Applications/CotEditor.app"'
 
-# mkdir+cd
-builtin alias mkdir="mkdir+cd"
-function mkdir+cd() {
-	#ban recursion method call
-	command mkdir $1 && cd $1 && ls;
-}
-
+# other
+alias pwd="pwd | pbcopy | pwd"
+alias cat='bat -p'
