@@ -15,6 +15,8 @@ ln -sf ~/dotfiles/vim/.vimrc ~/.vimrc
 ln -sf ~/dotfiles/vim/.vim/colors ~/.vim/colors
 ln -sf ~/dotfiles/zsh/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/.aliasrc ~/.aliasrc
+ln -sf ~/dotfiles/.tigrc ~/.tigrc
+ln -sf ~/dotfiles/.bashrc ~/.bashrc
 
 # change shell
 chsh -s $(which zsh)
