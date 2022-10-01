@@ -19,6 +19,8 @@ eval "$(nodenv init -)"
 eval "$(pyenv init -)"
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+export GOPATH="$HOME/go"
+export PATH="$PATH:$GOPATH/bin:$HOME"
 
 # 自動補完を有効
 autoload -U compinit; compinit

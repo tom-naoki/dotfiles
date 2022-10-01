@@ -8,6 +8,7 @@ brew install direnv
 brew install tig
 brew install bat
 brew install peco
+brew install go
 
 # install zprezto
 git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
