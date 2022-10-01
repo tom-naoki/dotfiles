@@ -1,0 +1,46 @@
+[alias]
+  co = checkout
+  s = status
+  a = add
+  d = diff
+  ds = diff --cached
+  show-files = show --pretty="" --name-only
+  au = !git add -u && git status
+  cm = commit
+  cm- = commit -m
+  ammend = commit --amend
+  br = !git --no-pager branch --sort=committerdate
+  fetch = fetch --prune
+  reset1= reset --soft HEAD~
+  cp = cherry-pick
+  reco = "!git reset && git co ."
+  logn = "!f() { git log -n  \"$1\" --oneline --pretty=format:'%h [%cd] %d %s <%an>' --date=format:'%Y/%m/%d %H:%M:%S'; }; f"
+  ss = stash save
+  ssstaged = stash save -k
+  sapply = !"git stash list | peco | awk -F '{|}' '{print $2}' | git stash apply"
+  spop = "!git stash list | peco | awk -F '{|}' '{print $2}' | xargs -I{} sh -c 'if [[ \"{}\" =~ [0-9]{1,} ]]; then git stash pop stash@{{}}; fi'"
+  slist = "!git stash list"
+  sdrop = "!git stash list | peco | awk -F '{|}' '{print $2}' | xargs -I{} sh -c 'if [[ \"{}\" =~ [0-9]{1,} ]]; then git stash drop stash@{{}}; fi'"
+  pu-head = "!git push origin $(git rev-parse --abbrev-ref HEAD) && echo '== diff-files-from-parent-branch ==' && git diff-files-from-parent-branch && echo '== create-pull-request-url ==' && git show-create-pull-request-url"
+  pl = "!git pull origin $(git rev-parse --abbrev-ref HEAD)"
+  tb = "!git rev-parse --abbrev-ref HEAD"
+  branch-mv = "!git branch -mv $(git rev-parse --abbrev-ref HEAD)"
+  delete-merged-branches = "!git branch --merged | grep -v '*' | xargs -I{} git branch -d {}"
+  refresh = "!git pl && git delete-merged-branches && git fetch --prune"
+  rubocop-check = "!git diff-files-from-parent-branch | sed '/spec.rb/d' | xargs | xargs -I{} sh -c \"if [ -n \"{}\" ];     then bundle exec rubocop $(echo $(git diff-files-from-parent-branch | sed '/spec.rb/d')) ;fi\""
+  rspec-check = "!git diff-files-from-parent-branch | sed -n -e '/spec.rb/p' | xargs | xargs -I{} sh -c \"if [ -n \"{}\"     ]; then bundle exec rspec $(echo $(git diff-files-from-parent-branch | sed -n -e '/spec.rb/p')) ;fi\""
+  grep-files = grep --files-with-matches
+  delete-pry-code = "!git diff --name-only | xargs -I{} sed -i -e '/binding.pry/d' {}"
+  delete-debugger-code = "!git diff --name-only | xargs -I{} sed -i -e '/debugger/d' {}"
+  delete-debug-code = "!git delete-pry-code && git delete-debugger-code"
+  parent-branch-name = "!git show-branch | grep '*' | sed 's/.*\\[\\(.*\\)\\].*/\\1/' | sed -n \"/$(git tb)/,/master/p\"  | sed -e 's/\\^//g' | sed -e 's/\\~//g' | sed 's/[0-9]\\{1,\\}$//g' | uniq | sed -e \"/$(git tb)/d\" | head -n 1"
+  diff-files-from-parent-branch = "!git diff --name-only origin/`git parent-branch-name`..`git tb`"
+  log-from-parent-branch = "!git log --pretty=oneline `git parent-branch-name`..`git tb`"
+  pull-master = "!git tb | xargs -I{} sh -c 'if [[ {} == 'master' ]]; then git pl ; else git co master > /dev/null && git pl && git co - ; fi'"
+  diff-check = "!git rubocop-check && git rspec-check"
+
+[grep]
+  LineNumber = true
+
+[include]
+  path = ~/.gitconfig.local
