@@ -1,5 +1,14 @@
 #!/bin/zsh
 
+# install packges
+brew install nodenv
+brew install pyenv
+brew install rbenv
+brew install direnv
+brew install tig
+brew install bat
+brew install peco
+
 # install zprezto
 git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 setopt EXTENDED_GLOB
