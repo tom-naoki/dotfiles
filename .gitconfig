@@ -44,3 +44,6 @@
 
 [include]
   path = ~/.git/.gitconfig.local
+
+[core]
+  editor = vim
