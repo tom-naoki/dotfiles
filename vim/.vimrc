@@ -1,17 +1,3 @@
-" プラグインのセットアップ
-call plug#begin('~/.vim/plugged')
-
-" ファイルタブを表示
-Plug 'scrooloose/nerdtree'
-" 自動でend補完
-Plug 'tpope/vim-endwise'
-" インデントに色を追加
-Plug 'nathanaelkane/vim-indent-guides'
-" vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
-let g:indent_guides_enable_on_vim_startup = 1
-
-call plug#end()
-
 " 文字コードをUFT-8に設定
 set fenc=utf-8
 " スクロール速度を速く設定
