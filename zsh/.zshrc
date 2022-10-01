@@ -2,7 +2,7 @@
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 # .aliasrc の読み込み
@@ -10,7 +10,7 @@ fi
 
 # prezto 設定
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+    source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
 # path
@@ -33,23 +33,25 @@ setopt auto_cd
 zstyle ':completion:*:default' menu select=1
 
 # peco
+## コマンド履歴
 function peco-history-selection() {
-  BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
-  CURSOR=$#BUFFER
-  zle reset-prompt
+    BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
+    CURSOR=$#BUFFER
+    zle reset-prompt
 }
 zle -N peco-history-selection
 bindkey '^R' peco-history-selection
 
+# brahch移動
 function peco-git-checkout {
-  git branch --sort=-authordate | peco | xargs git checkout
+    git branch --sort=-authordate | peco | xargs git checkout
 }
 zle -N peco-git-checkout
 bindkey '^O' peco-git-checkout
 
 # zplug
 if [[ ! -d ~/.zplug ]];then
-  git clone https://github.com/zplug/zplug ~/.zplug
+    git clone https://github.com/zplug/zplug ~/.zplug
 fi
 
 source ~/.zplug/init.zsh
@@ -64,7 +66,7 @@ zplug "b4b4r07/enhancd", use:"init.sh"
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
     if read -q; then
-      echo; zplug install
+        echo; zplug install
     fi
 fi
 
