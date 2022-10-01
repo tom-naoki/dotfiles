@@ -8,3 +8,6 @@ vi ~/.zpreztorc
 # add zstyle pmodule `git`, `syntax-highlighting`, `autosuggestions`
 # fix zstyle theme `powerlevel10k`
 ```
+
+- gitconfig設定
+  - .gitconfig.localを必要に応じて編集

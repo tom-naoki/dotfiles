@@ -43,4 +43,4 @@
   LineNumber = true
 
 [include]
-  path = ~/.gitconfig.local
+  path = ~/.git/.gitconfig.local

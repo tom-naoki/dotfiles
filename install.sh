@@ -16,6 +16,10 @@ ln -sf ~/dotfiles/.tigrc ~/.tigrc
 ln -sf ~/dotfiles/.bashrc ~/.bashrc
 ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
 
+# add .gitconfig files
+mkdir ~/.git
+touch ~/.git/.gitconfig.local
+
 # change shell
 chsh -s $(which zsh)
 source ~/.zshrc
