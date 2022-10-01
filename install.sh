@@ -14,6 +14,7 @@ ln -sf ~/dotfiles/zsh/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/.aliasrc ~/.aliasrc
 ln -sf ~/dotfiles/.tigrc ~/.tigrc
 ln -sf ~/dotfiles/.bashrc ~/.bashrc
+ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
 
 # change shell
 chsh -s $(which zsh)
