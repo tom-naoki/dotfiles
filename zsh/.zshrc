@@ -10,7 +10,7 @@ fi
 
 # prezto 設定
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
- source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
 # path
@@ -19,7 +19,6 @@ eval "$(nodenv init -)"
 eval "$(pyenv init -)"
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
-
 
 # 自動補完を有効
 autoload -U compinit; compinit
