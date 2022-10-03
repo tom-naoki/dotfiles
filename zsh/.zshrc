@@ -20,8 +20,8 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+export PATH="$HOME/.rbenv/shims:$PATH"
+brew upgrade ruby-build
 export GOPATH="$HOME/go"
 export PATH="$PATH:$GOPATH/bin:$HOME"
 
@@ -96,4 +96,3 @@ zplug load –verbose
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export EDITOR=code
-eval "$(direnv hook zsh)"
