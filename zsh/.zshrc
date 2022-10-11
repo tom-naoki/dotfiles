@@ -91,6 +91,9 @@ fi
 
 zplug load –verbose
 
+# diff-highlight
+export PATH="$PATH:/opt/homebrew/share/git-core/contrib/diff-highlight"
+
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
