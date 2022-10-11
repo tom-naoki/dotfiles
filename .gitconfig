@@ -47,6 +47,8 @@
 
 [core]
   editor = vim
+  excludesfile = /Users/kuratomi/.gitignore_global
+
 [pager]
   log = diff-highlight | less
   show = diff-highlight | less
