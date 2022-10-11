@@ -26,11 +26,6 @@ alias rm="rm -i"
 
 # open app
 alias chrome="open -a /Applications/Google\ Chrome.app"
-alias mine="open -a /Applications/RubyMine.app"
-alias slack="open -a /Applications/Slack.app"
-alias vscode="open -a /Applications/Visual\ Studio\ Code.app"
-alias coteditor='open $1 -a "/Applications/CotEditor.app"'
 
 # other
 alias pwd="pwd | pbcopy | pwd"
-alias cat='bat -p'
