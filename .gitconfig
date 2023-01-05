@@ -56,3 +56,6 @@
   log = diff-highlight | less
   show = diff-highlight | less
   diff = diff-highlight | less
+
+[url "git@github.com:"]
+    insteadOf = https://github.com/
