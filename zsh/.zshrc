@@ -1,13 +1,29 @@
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 
 # .aliasrc の読み込み
-. ~/.aliasrc
+source ~/.aliasrc
+
+# direnv hook
+_direnv_hook() {
+  trap -- '' SIGINT;
+  eval "$("/opt/homebrew/bin/direnv" export zsh)";
+  trap - SIGINT;
+}
+typeset -ag precmd_functions;
+if [[ -z "${precmd_functions[(r)_direnv_hook]+1}" ]]; then
+  precmd_functions=( _direnv_hook ${precmd_functions[@]} )
+fi
+typeset -ag chpwd_functions;
+if [[ -z "${chpwd_functions[(r)_direnv_hook]+1}" ]]; then
+  chpwd_functions=( _direnv_hook ${chpwd_functions[@]} )
+fi
 
 # prezto 設定
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
