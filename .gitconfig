@@ -15,6 +15,7 @@
   cp = cherry-pick
   reco = "!git reset && git co ."
   logn = "!f() { git log -n  \"$1\" --oneline --pretty=format:'%h [%cd] %d %s <%an>' --date=format:'%Y/%m/%d %H:%M:%S'; }; f"
+  ri = rebase -i 
   ss = stash save
   ssstaged = stash save -k
   sapply = !"git stash list | peco | awk -F '{|}' '{print $2}' | git stash apply"
@@ -38,6 +39,8 @@
   log-from-parent-branch = "!git log --pretty=oneline `git parent-branch-name`..`git tb`"
   pull-master = "!git tb | xargs -I{} sh -c 'if [[ {} == 'master' ]]; then git pl ; else git co master > /dev/null && git pl && git co - ; fi'"
   diff-check = "!git rubocop-check && git rspec-check"
+  stash-co = "!f() { git stash && git checkout \"$1\" && git stash pop; }; f"
+
 
 [grep]
   LineNumber = true

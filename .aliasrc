@@ -9,6 +9,9 @@ alias desktop="cd /Users/kuratomi/Desktop"
 # git
 alias g="git"
 alias master="git checkout master"
+alias gd="git diff"
+alias gs="git status"
+alias gtb="git tb | pbcopy"
 
 # rails
 alias rrn="rails runner"
