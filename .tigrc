@@ -13,3 +13,13 @@ set diff-view   = line-number:yes,interval=1 text:yes,commit-title-overflow=no
 
 # diff-highlightを有効化
 set diff-highlight = true
+
+
+# bind key for rebase
+bind main    R !git rebase -i %(commit)
+bind diff    R !git rebase -i %(commit)
+bind main    F !git commit --fixup %(commit)
+bind diff    F !git commit --fixup %(commit)
+
+# color
+color cursor black cyan
