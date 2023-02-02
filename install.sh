@@ -27,6 +27,10 @@ ln -sf ~/dotfiles/.tigrc ~/.tigrc
 ln -sf ~/dotfiles/.bashrc ~/.bashrc
 ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
 ln -sf ~/dotfiles/.gitignore_global ~/.gitignore_global
+# install vim color
+mkdir ~/Desktop/vim_color
+git clone https://github.com/jacoborus/tender.vim.git ~/Desktop/vim_color
+mv ~/Desktop/vim_color/tender/tender.vim ~/.vim/colors
 
 # add .gitconfig files
 mkdir ~/.git
@@ -36,5 +40,6 @@ touch ~/.git/.gitconfig.local
 chsh -s $(which zsh)
 source ~/.zshrc
 
-# echo
+# set theme
 echo "change theme to powerlevel10k : ~/.zpreztorc";
+ln -sf ~/.p10k.zsh ~/dotfiles/.p10k.zsh
