@@ -59,3 +59,12 @@
 [url "git@github.com:"]
   insteadOf = https://github.com/
 
+[rebase]
+  autostash = true
+  autosquash = true
+
+[diff]
+    tool = default-difftool
+
+[difftool "default-difftool"]
+    cmd = code --wait --diff $LOCAL $REMOTE
