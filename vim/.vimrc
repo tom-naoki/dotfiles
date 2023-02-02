@@ -7,7 +7,7 @@ set lazyredraw
 set clipboard+=unnamed
 
 " colorscheme設定
-colorscheme hybrid
+colorscheme tender
 
 "行番号を表示
 set number
