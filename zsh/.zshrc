@@ -1,4 +1,6 @@
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
+# prezto set prompt thme "powerlevel10k" at ~/.p10k.zsh
+# and fix ~/.p10k.zsh with reference to https://github.com/romkatv/powerlevel10k/issues/2019
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -7,15 +9,13 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# .aliasrc の読み込み
-source ~/.aliasrc
-
 # direnv hook
 _direnv_hook() {
   trap -- '' SIGINT;
   eval "$("/opt/homebrew/bin/direnv" export zsh)";
   trap - SIGINT;
 }
+
 typeset -ag precmd_functions;
 if [[ -z "${precmd_functions[(r)_direnv_hook]+1}" ]]; then
   precmd_functions=( _direnv_hook ${precmd_functions[@]} )
@@ -110,6 +110,8 @@ zplug load –verbose
 # diff-highlight
 export PATH="$PATH:/opt/homebrew/share/git-core/contrib/diff-highlight"
 
+# .aliasrc の読み込み
+source ~/.aliasrc
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
