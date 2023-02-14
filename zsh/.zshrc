@@ -110,6 +110,34 @@ zplug load –verbose
 # diff-highlight
 export PATH="$PATH:/opt/homebrew/share/git-core/contrib/diff-highlight"
 
+# tab color
+tab-color() {
+    echo -ne "\033]6;1;bg;red;brightness;$1\a"
+    echo -ne "\033]6;1;bg;green;brightness;$2\a"
+    echo -ne "\033]6;1;bg;blue;brightness;$3\a"
+}
+
+tab-reset() {
+    echo -ne "\033]6;1;bg;*;default\a"
+}
+
+chpwd_tab_color() {
+  case $PWD/ in
+    */Users/kuratomi/Desktop/hogehoge/*) tab-color 60 179 113;; # green
+    */Users/kuratomi/Desktop/hogehoge.txt) tab-color 240 128 128;; # yellow
+    *) tab-reset;;
+  esac
+}
+
+# setting tab name (iTerm2使用時に使用)
+# vscode intergrated tab title からも参照される
+# function chpwd() { ls; echo -ne "\033]0;$(pwd | rev | awk -F \/ '{print $1}'| rev)\007"}
+function chpwd() { ls; echo -ne "\033]0;$(pwd | sed -e "s/.*\/\(.*\)\/\(.*\)$/\1\/\2/g" | sed -e "s/\(^.\)\(.*\)\/\(.*\)/\1\/\3/g")\007"}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook chpwd chpwd_tab_color
+
+
 # .aliasrc の読み込み
 source ~/.aliasrc
 
