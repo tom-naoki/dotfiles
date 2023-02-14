@@ -137,6 +137,11 @@ function chpwd() { ls; echo -ne "\033]0;$(pwd | sed -e "s/.*\/\(.*\)\/\(.*\)$/\1
 autoload -Uz add-zsh-hook
 add-zsh-hook chpwd chpwd_tab_color
 
+# GCP configulation
+function peco-gcp-config() {
+  gcloud config configurations activate $(gcloud config configurations list | peco | awk '{print $1}' | grep -v NAME )
+}
+alias gcpp="peco-gcp-config"
 
 # .aliasrc の読み込み
 source ~/.aliasrc
