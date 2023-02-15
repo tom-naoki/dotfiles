@@ -90,6 +90,18 @@ function peco-git-config-aliases() {
 }
 alias gp="peco-git-config-aliases"
 
+# [peco] move directory from ghq list
+function peco-ghq-cd() {
+  local selected_dir=$(ghq list | sed -r 's/(.*)\/(.*)\/(.*)/\1 | \2 | \3/' | peco --query "$LBUFFER" | sed 's/ | /\//g')
+  # local selected_dir=$(ghq list | peco --query "$LBUFFER")
+  if [ -n "$selected_dir" ]; then
+    cd "$HOME/ghq/$selected_dir"
+    BUFFER="cd $HOME/ghq/$selected_dir"
+    zle accept-line
+  fi
+}
+zle -N peco-ghq-cd
+bindkey '^G' peco-ghq-cd
 # zplug
 if [[ ! -d ~/.zplug ]];then
     git clone https://github.com/zplug/zplug ~/.zplug
