@@ -47,4 +47,4 @@ source ~/.zshrc
 
 # set theme
 echo "change theme to powerlevel10k : ~/.zpreztorc";
-ln -sf ~/.p10k.zsh ~/dotfiles/.p10k.zsh
+ln -sf ~/dotfiles/.p10k.zsh ~/.p10k.zsh
