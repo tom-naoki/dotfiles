@@ -20,7 +20,7 @@ done
 
 # symlink links
 ln -sf ~/dotfiles/vim/.vimrc ~/.vimrc
-ln -sf ~/dotfiles/vim/.vim/colors ~/.vim/colors
+ln -sf ~/dotfiles/vim/colors ~/.vim/colors
 ln -sf ~/dotfiles/zsh/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/.aliasrc ~/.aliasrc
 ln -sf ~/dotfiles/.tigrc ~/.tigrc
@@ -30,7 +30,11 @@ ln -sf ~/dotfiles/.gitignore_global ~/.gitignore_global
 # install vim color
 mkdir ~/Desktop/vim_color
 git clone https://github.com/jacoborus/tender.vim.git ~/Desktop/vim_color
+git clone https://github.com/tomasr/molokai ~/Desktop/vim_color
+git clone https://github.com/w0ng/vim-hybrid ~/Desktop/vim_color
 mv ~/Desktop/vim_color/tender/tender.vim ~/.vim/colors
+mv ~/Desktop/vim_color/molokai/colors/molokai.vi ~/.vim/colors
+mv ~/Desktop/vim_color/vim-hybrid/colors/hybrid.vim ~/.vim/colors
 
 # add .gitconfig files
 mkdir ~/.git
