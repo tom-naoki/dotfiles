@@ -48,24 +48,23 @@ setopt auto_cd
 # Tab で候補からパス名を選択できるようになる
 zstyle ':completion:*:default' menu select=1
 
-# peco
-## コマンド履歴
+# [peco] コマンド履歴
 function peco-history-selection() {
     BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
     CURSOR=$#BUFFER
     zle reset-prompt
 }
 zle -N peco-history-selection
-bindkey '^R' peco-history-selection
+bindkey '^H' peco-history-selection
 
-# brahch移動
+# [peco] brahch移動
 function peco-git-checkout {
     git branch --sort=-authordate | peco | xargs git checkout
 }
 zle -N peco-git-checkout
-bindkey '^O' peco-git-checkout
+bindkey '^B' peco-git-checkout
 
-# ディレクトリ移動
+# [peco] ディレクトリ移動
 if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]]; then
     autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
     add-zsh-hook chpwd chpwd_recent_dirs
@@ -84,7 +83,7 @@ function peco-cdr () {
 zle -N peco-cdr
 bindkey '^P' peco-cdr
 
-# git command from git config
+# [peco] git command from git config
 function peco-git-config-aliases() {
   git $(git config --list | grep alias | sed -e "s/^alias\.\([^=]*\).*/\1/g" | grep - | peco)
 }
@@ -102,6 +101,13 @@ function peco-ghq-cd() {
 }
 zle -N peco-ghq-cd
 bindkey '^G' peco-ghq-cd
+
+# [peco] GCP configulation
+function peco-gcp-config() {
+  gcloud config configurations activate $(gcloud config configurations list | peco | awk '{print $1}' | grep -v NAME )
+}
+alias gcpp="peco-gcp-config"
+
 # zplug
 if [[ ! -d ~/.zplug ]];then
     git clone https://github.com/zplug/zplug ~/.zplug
@@ -154,12 +160,6 @@ function chpwd() { ls; echo -ne "\033]0;$(pwd | sed -e "s/.*\/\(.*\)\/\(.*\)$/\1
 
 autoload -Uz add-zsh-hook
 add-zsh-hook chpwd chpwd_tab_color
-
-# GCP configulation
-function peco-gcp-config() {
-  gcloud config configurations activate $(gcloud config configurations list | peco | awk '{print $1}' | grep -v NAME )
-}
-alias gcpp="peco-gcp-config"
 
 # .aliasrc の読み込み
 source ~/.aliasrc
