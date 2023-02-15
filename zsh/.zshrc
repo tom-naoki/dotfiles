@@ -84,6 +84,12 @@ function peco-cdr () {
 zle -N peco-cdr
 bindkey '^P' peco-cdr
 
+# git command from git config
+function peco-git-config-aliases() {
+  git $(git config --list | grep alias | sed -e "s/^alias\.\([^=]*\).*/\1/g" | grep - | peco)
+}
+alias gp="peco-git-config-aliases"
+
 # zplug
 if [[ ! -d ~/.zplug ]];then
     git clone https://github.com/zplug/zplug ~/.zplug
