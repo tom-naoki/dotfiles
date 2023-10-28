@@ -15,6 +15,7 @@ alias createpr="git create-pr"
 
 # tig
 alias t="tig"
+alias ti="tig"
 
 # rails
 alias rrn="rails runner"

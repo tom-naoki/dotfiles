@@ -48,6 +48,10 @@
 [grep]
   LineNumber = true
 
+[user]
+  name = tom-naoki
+  email = kn.sf.258@gmail.com
+
 [include]
   path = ~/.git/.gitconfig.local
 
