@@ -87,7 +87,7 @@ bindkey '^P' peco-cdr
 function peco-git-config-aliases() {
   git $(git config --list | grep alias | sed -e "s/^alias\.\([^=]*\).*/\1/g" | grep - | peco)
 }
-alias gp="peco-git-config-aliases"
+alias g-aliases="peco-git-config-aliases"
 
 # [peco] move directory from ghq list
 function peco-ghq-cd() {
@@ -106,7 +106,14 @@ bindkey '^G' peco-ghq-cd
 function peco-gcp-config() {
   gcloud config configurations activate $(gcloud config configurations list | peco | awk '{print $1}' | grep -v NAME )
 }
-alias gcpp="peco-gcp-config"
+alias gcpconfig="peco-gcp-config"
+
+# [peco] git rebase from git log
+function peco-git-rebase() {
+  git rebase -i $(git logn $1 | peco | awk '{print $1}')
+}
+alias g-rebasei="peco-git-rebase"
+
 
 # zplug
 if [[ ! -d ~/.zplug ]];then
@@ -168,3 +175,4 @@ source ~/.aliasrc
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export EDITOR=code
+# POS-iOS

@@ -3,6 +3,7 @@
   sw = switch
   swc = switch -c
   co = checkout
+  sw = switch
   a = add
   d = diff
   ds = diff --cached
@@ -43,7 +44,7 @@
   pull-master = "!git tb | xargs -I{} sh -c 'if [[ {} == 'master' ]]; then git pl ; else git co master > /dev/null && git pl && git co - ; fi'"
   find-merge-pr-from-commit = "!sh -c 'commit=$0 && branch=${1:-HEAD} && (git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2'"
   show-merge-pr-from-commit = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
-  create-pr = "!git config --get remote.origin.url | sed 's/git@github.com://g' | sed 's/.git//g' | xargs -I ORG echo 'https://github.com/ORG/compare' | xargs -I PATH open PATH/$(git tb)"
+  create-pr = "!git config --get remote.origin.url | sed -e 's/.*github.com:\\(.*\\).git/\\1/' -e 's/.*github.com\\/\\(.*\\)/\\1/' | xargs -I ORG echo 'https://github.com/ORG/compare/' | xargs -I PATH open PATH/$(git tb)"
 
 [grep]
   LineNumber = true

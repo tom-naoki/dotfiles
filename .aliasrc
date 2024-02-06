@@ -11,7 +11,7 @@ alias g="git"
 alias gd="git diff"
 alias gs="git status"
 alias gco="git checkout"
-alias createpr="git create-pr"
+alias g-createpr="git create-pr"
 
 # tig
 alias t="tig"
