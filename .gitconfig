@@ -2,7 +2,7 @@
   s = status
   sw = switch
   swc = switch -c
-  co = checkout
+  co = "!echo '---use switch or restore---'"
   sw = switch
   a = add
   d = diff
@@ -12,13 +12,14 @@
   commit-ammend = commit --amend
   fetch = fetch --prune
   pl = pull
+  fp = !git fetch --prune && git pull 
   pull-autostash = pull --autostash
   cp = cherry-pick
   ri = rebase -i
   pl = "!git pull origin $(git rev-parse --abbrev-ref HEAD)"
   tb = "!git rev-parse --abbrev-ref HEAD | pbcopy && pbpaste"
   # [required argument]
-  cos = "!f() { git stash; git switch \"$1\"; git stash pop; }; f"
+  sw-with-diff = "!f() { git stash; git switch \"$1\"; git stash pop; }; f"
   resetn= "!f() { git reset --soft HEAD~\"$1\" ; }; f"
   logn = "!f() { git log -n  \"$1\" --oneline --pretty=format:'%h [%cd] %d %s <%an>' --date=format:'%Y/%m/%d %H:%M:%S'; }; f"
   # [combined command (display peco)]
@@ -44,7 +45,7 @@
   pull-master = "!git tb | xargs -I{} sh -c 'if [[ {} == 'master' ]]; then git pl ; else git co master > /dev/null && git pl && git co - ; fi'"
   find-merge-pr-from-commit = "!sh -c 'commit=$0 && branch=${1:-HEAD} && (git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2'"
   show-merge-pr-from-commit = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
-  create-pr = "!git config --get remote.origin.url | sed -e 's/.*github.com:\\(.*\\).git/\\1/' -e 's/.*github.com\\/\\(.*\\)/\\1/' | xargs -I ORG echo 'https://github.com/ORG/compare/' | xargs -I PATH open PATH/$(git tb)"
+  create-pr = "!git config --get remote.origin.url | sed -e 's/.*github.com:\\(.*\\).git/\\1/' -e 's/.*github.com\\/\\(.*\\).git/\\1/' | xargs -I ORG echo 'https://github.com/ORG/compare/' | xargs -I PATH open PATH$(git tb)"
 
 [grep]
   LineNumber = true

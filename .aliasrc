@@ -1,4 +1,4 @@
- # cd
+# cd
 alias ..="cd ../"
 alias ....="cd ../../"
 alias ......="cd ../../../"
@@ -12,6 +12,7 @@ alias gd="git diff"
 alias gs="git status"
 alias gco="git checkout"
 alias g-createpr="git create-pr"
+alias g-root='cd "$(git rev-parse --show-toplevel)"'
 
 # tig
 alias t="tig"
@@ -37,3 +38,4 @@ alias chrome="open -a /Applications/Google\ Chrome.app"
 # other
 alias pwd="pwd | pbcopy | pwd"
 alias findp="find . | peco"
+alias diff="diff --color -u"
