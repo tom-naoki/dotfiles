@@ -113,18 +113,10 @@ fi
 zplug load --verbose
 
 # ====================
-# peco関連の便利機能
+# peco関連設定
 # ====================
-# [peco] コマンド履歴
-function peco-history-selection() {
-    BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
-    CURSOR=$#BUFFER
-    zle reset-prompt
-}
-zle -N peco-history-selection
-bindkey '^H' peco-history-selection
 
-# [peco] ディレクトリ移動
+# ----- cdrの設定 (peco-cdr用) -----
 if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]]; then
     autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
     add-zsh-hook chpwd chpwd_recent_dirs
@@ -133,6 +125,21 @@ if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]
     zstyle ':chpwd:*' recent-dirs-max 1000
     zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/chpwd-recent-dirs"
 fi
+
+# ====================
+# ナビゲーション関連機能
+# ====================
+
+# ----- コマンド履歴検索 (Ctrl + H) -----
+function peco-history-selection() {
+    BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
+    CURSOR=$#BUFFER
+    zle reset-prompt
+}
+zle -N peco-history-selection
+bindkey '^H' peco-history-selection
+
+# ----- 最近使用したディレクトリに移動 (Ctrl + P) -----
 function peco-cdr () {
     local selected_dir="$(cdr -l | sed 's/^[0-9]* *//' | peco --prompt "cdr ❯" --query "$LBUFFER")"
     if [ -n "$selected_dir" ]; then
@@ -143,7 +150,7 @@ function peco-cdr () {
 zle -N peco-cdr
 bindkey '^P' peco-cdr
 
-# [peco] move directory from ghq list
+# ----- ghqリポジトリに移動 (Ctrl + G) -----
 function peco-ghq-cd() {
   local selected_dir=$(ghq list | sed -r 's/(.*)\/(.*)\/(.*)/\1 | \2 | \3/' | peco --query "$LBUFFER" | sed 's/ | /\//g')
   if [ -n "$selected_dir" ]; then
@@ -158,35 +165,36 @@ bindkey '^G' peco-ghq-cd
 # ====================
 # Git関連の便利機能
 # ====================
-# [peco] branch移動
+
+# ----- ブランチ切り替え -----
 function peco-git-switch {
     git branch --sort=-authordate | peco | xargs git switch
 }
 zle -N peco-git-switch
 alias g-switch="peco-git-switch"
 
+# ----- ブランチ切り替え(差分表示付き) -----
 function peco-git-switch-with-diff {
     git branch --sort=-authordate | peco | xargs git sw-with-diff
 }
 zle -N peco-git-switch-with-diff
 alias g-switch-with-diff="peco-git-switch-with-diff"
 
-# [peco] git command from git config
+# ----- Gitエイリアスコマンド実行 -----
 function peco-git-config-aliases() {
   git $(git config --list | grep alias | sed -e "s/^alias\.\([^=]*\).*/\1/g" | grep - | peco)
 }
 alias g-aliases="peco-git-config-aliases"
 
-# [peco] git rebase from git log
+# ----- Gitリベース対話モード -----
 function peco-git-rebase() {
   git rebase -i $(git logn $1 | peco | awk '{print $1}')
 }
 alias g-rebasei="peco-git-rebase"
 
-# [peco] select code command first argument from git status files
+# ----- 変更ファイルをVS Codeで開く -----
 function peco-code-open-file-from-git-status() {
-  # MM ではじまる場合は、M&M に変換する
-  # なにも選択されなかった場合は　、code command を実行しない
+  # MMではじまる場合はM&Mに変換、選択なしの場合は何もしない
   local selected_file=$(git status -s | peco | awk '{print $2}' | sed -e "s/^M/&&/g")
   if [ -n "$selected_file" ]; then
     code $selected_file
@@ -194,10 +202,9 @@ function peco-code-open-file-from-git-status() {
 }
 alias code-gs="peco-code-open-file-from-git-status"
 
-# [peco] git add first argument from git status files
+# ----- 変更ファイルをステージング -----
 function peco-git-add-from-git-status() {
-  # 'M ' ではじまるファイルはすでにaddされているので、対象から除外する
-  # 'MM', 'M ' , ' M' で始まる場合は、その部分を削除する
+  # すでにaddされているファイル(M )は除外し、変更のあるファイルのみ表示
   local selected_file=$(git status -s | grep -v "^M " | peco | awk '{print $2}' | sed -e "s/^M/&&/g")
   if [ -n "$selected_file" ]; then
     git add -p $selected_file; git status
@@ -206,15 +213,16 @@ function peco-git-add-from-git-status() {
 alias g-add="peco-git-add-from-git-status"
 
 # ====================
-# その他の便利機能
+# クラウド・インフラ関連機能
 # ====================
-# [peco] GCP configulation
+
+# ----- GCP設定切り替え -----
 function peco-gcp-config() {
   gcloud config configurations activate $(gcloud config configurations list | peco | awk '{print $1}' | grep -v NAME )
 }
 alias gcpconfig="peco-gcp-config"
 
-# [peco] docker logs
+# ----- Dockerコンテナログ表示 -----
 function peco-docker-logs() {
   local selected_container=$(docker ps | peco | awk '{print $1}')
   if [ -n "$selected_container" ]; then
