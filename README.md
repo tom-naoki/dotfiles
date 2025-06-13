@@ -1,8 +1,9 @@
 
 ### セットアップ実行
 ```
-git clone git@github.com:tom-naoki/dotfiles.git
-cd dotfiles
+brew install ghq
+ghq get git@github.com:tom-naoki/dotfiles.git
+cd ~/ghq/github.com/tom-naoki/dotfiles
 ./install.sh
 ```
 
