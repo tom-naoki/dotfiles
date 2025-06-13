@@ -19,26 +19,59 @@ for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
   ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
 done
 
-# symlink links
-ln -sf ~/dotfiles/vim/.vimrc ~/.vimrc
-ln -sf ~/dotfiles/vim/colors ~/.vim/colors
-ln -sf ~/dotfiles/zsh/.zshrc ~/.zshrc
-ln -sf ~/dotfiles/.aliasrc ~/.aliasrc
-ln -sf ~/dotfiles/.tigrc ~/.tigrc
-ln -sf ~/dotfiles/.bashrc ~/.bashrc
-ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
-ln -sf ~/dotfiles/.gitignore_global ~/.gitignore_global
+# create .vim directory
+mkdir -p ~/.vim/colors
+
+# backup and symlink function
+backup_and_symlink() {
+  local source=$1
+  local target=$2
+  local backup_dir="$HOME/Desktop/setup-backup/dotfiles"
+  
+  if [ -e "$target" ]; then
+    echo "既存のファイルが見つかりました: $target"
+    read -p "バックアップを取って上書きしますか？ (y/n): " answer
+    if [ "$answer" = "y" ]; then
+      mkdir -p "$backup_dir"
+      mv "$target" "$backup_dir/$(basename $target)"
+      ln -sf "$source" "$target"
+      echo "バックアップを作成し、シンボリックリンクを設定しました"
+    else
+      echo "スキップしました: $target"
+    fi
+  else
+    ln -sf "$source" "$target"
+    echo "シンボリックリンクを設定しました: $target"
+  fi
+}
+
+# symlink links with backup
+backup_and_symlink ~/dotfiles/vim/.vimrc ~/.vimrc
+backup_and_symlink ~/dotfiles/vim/colors ~/.vim/colors
+backup_and_symlink ~/dotfiles/zsh/.zshrc ~/.zshrc
+backup_and_symlink ~/dotfiles/.aliasrc ~/.aliasrc
+backup_and_symlink ~/dotfiles/.tigrc ~/.tigrc
+backup_and_symlink ~/dotfiles/.bashrc ~/.bashrc
+backup_and_symlink ~/dotfiles/.gitconfig ~/.gitconfig
+backup_and_symlink ~/dotfiles/.gitignore_global ~/.gitignore_global
+
 # install vim color
-mkdir ~/Desktop/vim_color
-git clone https://github.com/jacoborus/tender.vim.git ~/Desktop/vim_color
-git clone https://github.com/tomasr/molokai ~/Desktop/vim_color
-git clone https://github.com/w0ng/vim-hybrid ~/Desktop/vim_color
-mv ~/Desktop/vim_color/tender/tender.vim ~/.vim/colors
-mv ~/Desktop/vim_color/molokai/colors/molokai.vi ~/.vim/colors
-mv ~/Desktop/vim_color/vim-hybrid/colors/hybrid.vim ~/.vim/colors
+rm -rf ~/Desktop/vim_color
+mkdir -p ~/Desktop/vim_color
+git clone https://github.com/jacoborus/tender.vim.git ~/Desktop/vim_color/tender
+git clone https://github.com/tomasr/molokai ~/Desktop/vim_color/molokai
+git clone https://github.com/w0ng/vim-hybrid ~/Desktop/vim_color/vim-hybrid
+
+# move vim colors
+mv ~/Desktop/vim_color/tender/tender.vim ~/.vim/colors/
+mv ~/Desktop/vim_color/molokai/colors/molokai.vim ~/.vim/colors/
+mv ~/Desktop/vim_color/vim-hybrid/colors/hybrid.vim ~/.vim/colors/
+
+# cleanup
+rm -rf ~/Desktop/vim_color
 
 # add .gitconfig files
-mkdir ~/.git
+mkdir -p ~/.git
 touch ~/.git/.gitconfig.local
 
 # change shell
@@ -46,5 +79,5 @@ chsh -s $(which zsh)
 source ~/.zshrc
 
 # set theme
-echo "change theme to powerlevel10k : ~/.zpreztorc";
+echo "change theme to powerlevel10k : ~/.zpreztorc"
 ln -sf ~/dotfiles/.p10k.zsh ~/.p10k.zsh
