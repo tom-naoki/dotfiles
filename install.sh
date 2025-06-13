@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+# スクリプトの先頭に追加
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # install packges
 brew install nodenv
 brew install pyenv
@@ -45,15 +48,14 @@ backup_and_symlink() {
   fi
 }
 
-# symlink links with backup
-backup_and_symlink ~/dotfiles/vim/.vimrc ~/.vimrc
-backup_and_symlink ~/dotfiles/vim/colors ~/.vim/colors
-backup_and_symlink ~/dotfiles/zsh/.zshrc ~/.zshrc
-backup_and_symlink ~/dotfiles/.aliasrc ~/.aliasrc
-backup_and_symlink ~/dotfiles/.tigrc ~/.tigrc
-backup_and_symlink ~/dotfiles/.bashrc ~/.bashrc
-backup_and_symlink ~/dotfiles/.gitconfig ~/.gitconfig
-backup_and_symlink ~/dotfiles/.gitignore_global ~/.gitignore_global
+symlink links with backup
+backup_and_symlink "$SCRIPT_DIR/vim/.vimrc" ~/.vimrc
+backup_and_symlink "$SCRIPT_DIR/vim/colors" ~/.vim/colors
+backup_and_symlink "$SCRIPT_DIR/zsh/.zshrc" ~/.zshrc
+backup_and_symlink "$SCRIPT_DIR/.aliasrc" ~/.aliasrc
+backup_and_symlink "$SCRIPT_DIR/tig/.tigrc" ~/.tigrc
+backup_and_symlink "$SCRIPT_DIR/git/.gitconfig" ~/.gitconfig
+backup_and_symlink "$SCRIPT_DIR/git/.gitignore_global" ~/.gitignore_global
 
 # install vim color
 rm -rf ~/Desktop/vim_color
@@ -74,10 +76,11 @@ rm -rf ~/Desktop/vim_color
 mkdir -p ~/.git
 touch ~/.git/.gitconfig.local
 
-# change shell
-chsh -s $(which zsh)
-source ~/.zshrc
-
 # set theme
 echo "change theme to powerlevel10k : ~/.zpreztorc"
 ln -sf ~/dotfiles/.p10k.zsh ~/.p10k.zsh
+
+# change shell (最後に実行)
+echo "シェルをzshに変更します..."
+chsh -s $(which zsh)
+echo "シェルの変更が完了しました。ターミナルを再起動してください。"
