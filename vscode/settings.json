@@ -1,0 +1,232 @@
+{
+  // editor
+  "editor.renderLineHighlight": "all",
+  "editor.cursorBlinking": "phase",
+  "editor.renderControlCharacters": true,
+  "editor.renderWhitespace": "boundary",
+  "editor.tabSize": 2,
+  "editor.fontSize": 12,
+  "editor.detectIndentation": true,
+  "editor.minimap.enabled": false,
+  "editor.wordWrap": "off", //折り返し表示
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": false,
+  "editor.cursorStyle": "block",
+  "editor.inlineSuggest.enabled": true,
+  "editor.tokenColorCustomizations": {
+    // comment のカラー変更
+    "comments": "#6b8e23",
+    "textMateRules": [
+      {
+        "scope": "heading.1.markdown entity.name.section.markdown",
+        "settings": {
+          "foreground": "#4d85c3"
+        }
+      },
+      {
+        "scope": "heading.2.markdown entity.name.section.markdown",
+        "settings": {
+          "foreground": "#389674"
+        }
+      },
+      {
+        "scope": "heading.3.markdown entity.name.section.markdown",
+        "settings": {
+          "foreground": "#b0be1e"
+        }
+      },
+      {
+        "scope": "heading.4.markdown entity.name.section.markdown",
+        "settings": {
+          "foreground": "#8594c8"
+        }
+      },
+      {
+        "scope": "heading.5.markdown entity.name.section.markdown",
+        "settings": {
+          "foreground": "#f76328"
+        }
+      },
+      {
+        "scope": "heading.6.markdown entity.name.section.markdown",
+        "settings": {
+          "foreground": "#fccf3e"
+        }
+      }
+    ]
+  },
+  "editor.formatOnSave": true,
+  "[json]": {
+    "editor.formatOnSave": false
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // enter 押下時にsuggestionを実行する
+  // "editor.acceptSuggestionOnEnter": "off",
+
+  // prettier
+  "prettier.jsxSingleQuote": true,
+  // files
+  "files.insertFinalNewline": true,
+  "files.autoSave": "onFocusChange",
+
+  // window
+  "window.openWithoutArgumentsInNewWindow": "on",
+  "window.restoreWindows": "none",
+  "window.title": "${focusedView}${separator}${rootName}${separator}${activeEditorShort}",
+
+  // breadcrumbs
+  "breadcrumbs.enabled": true,
+
+  // workbench
+  "workbench.editor.tabCloseButton": "left",
+  "workbench.editor.tabSizing": "fit",
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.colorCustomizations": {
+    // ======= editor =======
+    "editor.selectionBackground": "#4169E1",
+    "editor.selectionHighlightBackground": "#4682b4",
+    "editor.lineHighlightBackground": "#1073cf2d",
+    "editor.lineHighlightBorder": "#9fced11f",
+    // ======= statusbar =======
+    // "statusBar.background": "#282c34", // ステータスバー背景色
+    // "statusBar.foreground": "#ffffff", // ステータスバー前景色
+    // "statusBar.noFolderBackground": "#282c34", // フォルダーが開いていない時のステータスバー背景色
+    // "statusBar.debuggingBackground": "#d19a66", // プログラムをデバッグしている時の背景色
+    // "statusBar.border": "#3c3c3c", // ステータスバーの枠線
+    // "statusBarItem.prominentBackground": "#007acc", // ステータスバー内で目立たせる項目に対する背景色
+    // ======= tab =======
+    // "editorGroupHeader.tabsBackground": "#282c34", // タブの背景色
+    "tab.activeBackground": "#3c3c3c", // アクティブなタブの背景色
+    "tab.activeForeground": "#ffffff", // アクティブなタブの文字色
+    "tab.border": "#3c3c3c", // タブを区切るための境界線
+    "tab.activeBorder": "#007acc", // アクティブなタブの下の線
+    // "tab.inactiveBackground": "#333333", // 非アクティブなタブの背景色
+    "tab.inactiveForeground": "#888888", // 非アクティブなタブの文字色
+    // ======= sidebar =======
+    "sideBar.background": "#293039", // サイドバーの背景色
+    "sideBar.foreground": "#ffffff", // サイドバーの文字色
+    "sideBar.border": "#3c3c3c", // サイドバーとエディターの境界線の色
+    "sideBarTitle.foreground": "#ffffff", // サイドバータイトルの前景色
+    "sideBarSectionHeader.background": "#434854", // サイドバーセクションヘッダーの背景色
+    "sideBarSectionHeader.foreground": "#ffffff" // サイドバーセクションヘッダーの前景色
+    // ======= terminal =======
+    // https://glitchbone.github.io/vscode-base16-term/#/railscasts
+  },
+  "workbench.iconTheme": "vscode-icons",
+  "workbench.editor.wrapTabs": true,
+
+  // debug
+  "debug.internalConsoleOptions": "openOnSessionStart",
+
+  // css
+  "css.validate": false,
+  "scss.validate": false,
+  "less.validate": false,
+
+  // terminal
+  "terminal.integrated.fontFamily": "Noto Mono for Powerline",
+  "terminal.external.osxExec": "iTerm2.app",
+  "terminal.integrated.copyOnSelection": true,
+  "terminal.integrated.scrollback": 1000000,
+
+  "diffEditor.wordWrap": "off",
+  "editor.guides.indentation": false,
+  "cSpell.enabledLanguageIds": [
+    "ruby",
+    "markdown",
+    "plaintext",
+    "javascript",
+    "typescript",
+    "json",
+    "go"
+  ],
+  "cSpell.ignoreRegExpList": ["[亜-熙ぁ-んァ-ヶ]"],
+
+  // Go
+  "go.useLanguageServer": true,
+  "go.toolsManagement.autoUpdate": true,
+  "[go]": {
+    "editor.defaultFormatter": "golang.go",
+    "editor.formatOnSave": true
+  },
+  "go.testEnvVars": {
+    "ENV": "test"
+  },
+
+  // terminal
+  "terminal.integrated.tabs.location": "left",
+  "terminal.integrated.tabs.description": "",
+  "terminal.integrated.customGlyphs": false,
+  "terminal.integrated.tabs.hideCondition": "never",
+  "terminal.integrated.tabs.showActiveTerminal": "always",
+  "terminal.integrated.tabs.title": "${sequence}",
+  "files.associations": {
+    "*.jb": "ruby"
+  },
+
+  // Python
+  "[python]": {
+    "editor.formatOnType": true
+  },
+
+  // Other
+  "redhat.telemetry.enabled": true,
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
+  },
+  "terminal.integrated.confirmOnExit": "always",
+  "terminal.integrated.confirmOnKill": "always",
+  "prettier.bracketSameLine": true,
+
+  "search.useGlobalIgnoreFiles": true,
+  "search.experimental.notebookSearch": true,
+  "eslint.codeActionsOnSave.rules": null,
+  "window.openFoldersInNewWindow": "on",
+  "workbench.editor.tabActionLocation": "left",
+  "window.titleSeparator": " - ",
+  "workbench.editor.enablePreview": false,
+  "github.copilot.chat.localeOverride": "ja",
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "window.zoomLevel": 2,
+  "git.openRepositoryInParentFolders": "never",
+  "markdown-preview-github-styles.colorTheme": "light",
+  "workbench.colorTheme": "Tokyo Night Storm",
+  "workbench.preferredHighContrastLightColorTheme": "Default Dark Modern",
+  "githubPullRequests.pullBranch": "never",
+  "security.promptForLocalFileProtocolHandling": false,
+  "markdown.preview.breaks": true,
+  "workbench.activityBar.location": "bottom",
+  "editor.experimentalEditContextEnabled": true,
+  "github.copilot.chat.reviewSelection.enabled": false,
+  "rubyLsp.rubyVersionManager": {
+    "identifier": "rbenv"
+  },
+  "rubyLsp.enabledFeatures": {
+    "codeActions": true,
+    "diagnostics": true,
+    "documentHighlights": true,
+    "documentLink": true,
+    "documentSymbols": true,
+    "foldingRanges": true,
+    "formatting": true,
+    "hover": true,
+    "inlayHint": true,
+    "onTypeFormatting": true,
+    "selectionRanges": true,
+    "semanticHighlighting": true,
+    "completion": true,
+    "codeLens": true,
+    "definition": true,
+    "workspaceSymbol": true,
+    "signatureHelp": true,
+    "typeHierarchy": true
+  },
+  "editor.accessibilitySupport": "off",
+  "makefile.configureOnOpen": false,
+  "remote.autoForwardPortsSource": "hybrid",
+  "settingsSync.keybindingsPerPlatform": false,
+  "settingsSync.ignoredExtensions": [],
+  "settingsSync.ignoredSettings": []
+}
