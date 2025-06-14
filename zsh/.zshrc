@@ -18,6 +18,9 @@ fi
 # prezto 設定
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
     source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+    autoload -Uz promptinit
+    promptinit
+    prompt pure
 fi
 
 # エディタ設定

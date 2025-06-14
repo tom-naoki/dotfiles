@@ -134,13 +134,31 @@ prompt_pure_preprompt_render() {
 
 	# Add Git branch and dirty status info.
 	typeset -gA prompt_pure_vcs_info
+	# if [[ -n $prompt_pure_vcs_info[branch] ]]; then
+	# 	local branch="%F{$git_color}"'${prompt_pure_vcs_info[branch]}'
+	# 	if [[ -n $prompt_pure_vcs_info[action] ]]; then
+	# 		branch+="|%F{$prompt_pure_colors[git:action]}"'$prompt_pure_vcs_info[action]'"%F{$git_color}"
+	# 	fi
+	# 	preprompt_parts+=("$branch""%F{$git_dirty_color}"'${prompt_pure_git_dirty}%f')
+	# fi
+
+	# staged/unstaged の状態をわかりやすくする
 	if [[ -n $prompt_pure_vcs_info[branch] ]]; then
-		local branch="%F{$git_color}"'${prompt_pure_vcs_info[branch]}'
-		if [[ -n $prompt_pure_vcs_info[action] ]]; then
-			branch+="|%F{$prompt_pure_colors[git:action]}"'$prompt_pure_vcs_info[action]'"%F{$git_color}"
+		local staged unstaged sign color
+		staged=$(git diff --cached --name-only --no-ext-diff 2>/dev/null | wc -l | tr -d ' ')
+		unstaged=$(git diff --name-only --no-ext-diff 2>/dev/null | wc -l | tr -d ' ')
+		if (( staged > 0 )); then
+			sign='▲'
+			color='%F{yellow}'
+		elif (( unstaged > 0 )); then
+			sign='●'
+			color='%F{red}'
+		else
+			sign='✔'
+			color='%F{green}'
 		fi
-		preprompt_parts+=("$branch""%F{$git_dirty_color}"'${prompt_pure_git_dirty}%f')
-	fi
+		local branch="${color}${prompt_pure_vcs_info[branch]} ${sign}%f"
+
 	# Git pull/push arrows.
 	if [[ -n $prompt_pure_git_arrows ]]; then
 		preprompt_parts+=('%F{$prompt_pure_colors[git:arrow]}${prompt_pure_git_arrows}%f')
