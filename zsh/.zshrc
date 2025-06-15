@@ -24,7 +24,7 @@ function update_terminal_title() {
   # タイトル組み立て
   local title
   if [[ -n "$git_repo" ]]; then
-    title="[$git_repo]:$cwd_name"
+    title="[$git_repo] $cwd_name"
   else
     title="$cwd_name"
   fi

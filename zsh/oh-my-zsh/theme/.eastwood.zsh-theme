@@ -1,0 +1,1 @@
+/Users/kuratomi/.oh-my-zsh/themes/eastwood.zsh-theme
