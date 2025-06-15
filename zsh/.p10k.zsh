@@ -1,1 +1,0 @@
-/Users/kuratomi/.p10k.zsh

@@ -1,28 +1,6 @@
 # ====================
-# Powerlevel10k設定
-# ====================
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
-# prezto set prompt thme "powerlevel10k" at ~/.p10k.zsh
-# and fix ~/.p10k.zsh with reference to https://github.com/romkatv/powerlevel10k/issues/2019
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# ====================
 # 基本環境設定
 # ====================
-# prezto 設定
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-    source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-    autoload -Uz promptinit
-    promptinit
-    prompt pure
-fi
-
 # エディタ設定
 export EDITOR=code
 export BUNDLER_EDITOR='code'
@@ -31,14 +9,8 @@ export BUNDLER_EDITOR='code'
 autoload -U compinit; compinit
 # ディレクトリ名だけでcd
 setopt auto_cd
-# Tab で候補からパス名を選択できるようになる
-zstyle ':completion:*:default' menu select=1
-
 # .aliasrc の読み込み
 source ~/.aliasrc
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # ====================
 # PATH環境変数設定

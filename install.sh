@@ -15,13 +15,6 @@ brew install go
 brew install jq
 brew install ghq
 
-# install zprezto
-git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-setopt EXTENDED_GLOB
-for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-  ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-done
-
 # create .vim directory
 mkdir -p ~/.vim/colors
 
@@ -30,7 +23,7 @@ backup_and_symlink() {
   local source=$1
   local target=$2
   local backup_dir="$HOME/Desktop/setup-backup/dotfiles"
-  
+
   if [ -e "$target" ]; then
     echo "既存のファイルが見つかりました: $target"
     read -p "バックアップを取って上書きしますか？ (y/n): " answer
@@ -75,10 +68,6 @@ rm -rf ~/Desktop/vim_color
 # add .gitconfig files
 mkdir -p ~/.git
 touch ~/.git/.gitconfig.local
-
-# set theme
-echo "change theme to powerlevel10k : ~/.zpreztorc"
-ln -sf ~/dotfiles/.p10k.zsh ~/.p10k.zsh
 
 # change shell (最後に実行)
 echo "シェルをzshに変更します..."
