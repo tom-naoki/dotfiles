@@ -12,7 +12,7 @@
   commit-ammend = commit --amend
   fetch = fetch --prune
   pl = pull
-  fp = !git fetch --prune && git pull 
+  fp = !git fetch --prune && git pull
   pull-autostash = pull --autostash
   cp = cherry-pick
   ri = rebase -i
@@ -60,11 +60,12 @@
 [core]
   editor = vim
   excludesfile = /Users/kuratomi/.gitignore_global
+	pager = less -FRX
 
 [pager]
-  log = diff-highlight | less
-  show = diff-highlight | less
-  diff = diff-highlight | less
+  log = diff-highlight | less -FRX
+  show = diff-highlight | less -FRX
+  diff = diff-highlight | less -FRX
 
 [url "git@github.com:"]
   insteadOf = https://github.com/

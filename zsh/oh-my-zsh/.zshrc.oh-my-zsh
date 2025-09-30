@@ -19,4 +19,9 @@ plugins=(
   copypath
 )
 
+
+# PATH
+
+# execute source
+
 source $ZSH/oh-my-zsh.sh

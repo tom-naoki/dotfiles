@@ -1,4 +1,17 @@
+# general
 .idea
 tags
 .DS_Store
 *.swp
+.tool-versions
+
+# vscode
+.vscode/
+
+# claude
+# settings.local.json, project.local.mdなど
+**/.claude/*.local.*
+.serena/
+
+# other
+mydocs/
