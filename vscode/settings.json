@@ -228,5 +228,6 @@
   "remote.autoForwardPortsSource": "hybrid",
   "settingsSync.keybindingsPerPlatform": false,
   "settingsSync.ignoredExtensions": [],
-  "settingsSync.ignoredSettings": []
+  "settingsSync.ignoredSettings": [],
+  "github.copilot.nextEditSuggestions.enabled": true
 }
