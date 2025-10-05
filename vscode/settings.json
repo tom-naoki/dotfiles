@@ -83,36 +83,31 @@
   "workbench.editor.tabSizing": "fit",
   "workbench.startupEditor": "newUntitledFile",
   "workbench.colorCustomizations": {
-    // ======= editor =======
-    "editor.selectionBackground": "#4169E1",
-    "editor.selectionHighlightBackground": "#4682b4",
-    "editor.lineHighlightBackground": "#1073cf2d",
-    "editor.lineHighlightBorder": "#9fced11f",
-    // ======= statusbar =======
-    // "statusBar.background": "#282c34", // ステータスバー背景色
-    // "statusBar.foreground": "#ffffff", // ステータスバー前景色
-    // "statusBar.noFolderBackground": "#282c34", // フォルダーが開いていない時のステータスバー背景色
-    // "statusBar.debuggingBackground": "#d19a66", // プログラムをデバッグしている時の背景色
-    // "statusBar.border": "#3c3c3c", // ステータスバーの枠線
-    // "statusBarItem.prominentBackground": "#007acc", // ステータスバー内で目立たせる項目に対する背景色
-    // ======= tab =======
-    // "editorGroupHeader.tabsBackground": "#282c34", // タブの背景色
-    "tab.activeBackground": "#3c3c3c", // アクティブなタブの背景色
-    "tab.activeForeground": "#ffffff", // アクティブなタブの文字色
-    "tab.border": "#3c3c3c", // タブを区切るための境界線
-    "tab.activeBorder": "#007acc", // アクティブなタブの下の線
-    // "tab.inactiveBackground": "#333333", // 非アクティブなタブの背景色
-    "tab.inactiveForeground": "#888888", // 非アクティブなタブの文字色
-    // ======= sidebar =======
-    "sideBar.background": "#293039", // サイドバーの背景色
-    "sideBar.foreground": "#ffffff", // サイドバーの文字色
-    "sideBar.border": "#3c3c3c", // サイドバーとエディターの境界線の色
-    "sideBarTitle.foreground": "#ffffff", // サイドバータイトルの前景色
-    "sideBarSectionHeader.background": "#434854", // サイドバーセクションヘッダーの背景色
-    "sideBarSectionHeader.foreground": "#ffffff" // サイドバーセクションヘッダーの前景色
-    // ======= terminal =======
-    // https://glitchbone.github.io/vscode-base16-term/#/railscasts
-  },
+    // https://glitchbone.github.io/vscode-base16-term/#/default-dark
+    "editor.selectionBackground": "#3a5f8f",        // 選択範囲の背景色（青系でわかりやすく）
+    "editor.selectionHighlightBackground": "#add6ff26", // 同じ単語のハイライト
+    "editor.inactiveSelectionBackground": "#3a3d4180",  // 非アクティブ時の選択範囲
+    "terminal.background":"#151515",
+    "terminal.foreground":"#D0D0D0",
+    "terminalCursor.background":"#D0D0D0",
+    "terminalCursor.foreground":"#D0D0D0",
+    "terminal.ansiBlack":"#151515",
+    "terminal.ansiBlue":"#6A9FB5",
+    "terminal.ansiBrightBlack": "#505050",
+    "terminal.ansiBrightBlue":"#6A9FB5",
+    "terminal.ansiBrightCyan":"#75B5AA",
+    "terminal.ansiBrightGreen":"#90A959",
+    "terminal.ansiBrightMagenta":"#AA759F",
+    "terminal.ansiBrightRed":"#AC4142",
+    "terminal.ansiBrightWhite":"#F5F5F5",
+    "terminal.ansiBrightYellow":"#F4BF75",
+    "terminal.ansiCyan":"#75B5AA",
+    "terminal.ansiGreen":"#90A959",
+    "terminal.ansiMagenta":"#AA759F",
+    "terminal.ansiRed":"#AC4142",
+    "terminal.ansiWhite":"#D0D0D0",
+    "terminal.ansiYellow":"#F4BF75"
+},
   "workbench.iconTheme": "vscode-icons",
   "workbench.editor.wrapTabs": true,
 
