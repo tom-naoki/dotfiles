@@ -38,32 +38,29 @@ autoload -Uz add-zsh-hook
 add-zsh-hook precmd update_terminal_title
 
 # ====================
+# version
+# ====================
+# asdf
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+. "$(brew --prefix asdf)/libexec/asdf.sh"
+export ASDF_LEGACY_VERSION_FILE="yes"
+
+# ====================
 # PATH環境変数設定
 # ====================
-# Python
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
 
-# Ruby
-export PATH="$HOME/.rbenv/shims:$PATH"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
+export OBSIDNAN_PROJECT_PATH="$HOME/ghq/github.com/tom-naoki/obsidian"
 
 # Go
 export GOPATH="$HOME/go"
 export PATH="$PATH:$GOPATH/bin:$HOME"
 
-# asdf
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
-
-# Node.js環境(nvm)
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # diff-highlight
 export PATH="$PATH:/opt/homebrew/share/git-core/contrib/diff-highlight"
+
 
 # ====================
 # direnv設定

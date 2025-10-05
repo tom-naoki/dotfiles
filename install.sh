@@ -4,9 +4,7 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # install packges
-brew install nodenv
-brew install pyenv
-brew install rbenv
+brew install asdf
 brew install direnv
 brew install tig
 brew install bat
@@ -14,6 +12,37 @@ brew install peco
 brew install go
 brew install jq
 brew install ghq
+
+# setup asdf
+echo "asdfのプラグインを追加しています..."
+asdf plugin add ruby
+asdf plugin add nodejs
+
+# set fixed versions
+RUBY_VERSION="3.4.6"
+NODE_VERSION="24.9.0"
+
+echo "Rubyバージョン: $RUBY_VERSION"
+echo "Node.jsバージョン: $NODE_VERSION"
+
+# install fixed versions
+echo "指定バージョンをインストールしています..."
+asdf install ruby $RUBY_VERSION
+asdf install nodejs $NODE_VERSION
+
+# create .tool-versions file
+echo ".tool-versionsファイルを作成しています..."
+cat > "$SCRIPT_DIR/.tool-versions" << EOF
+ruby $RUBY_VERSION
+nodejs $NODE_VERSION
+EOF
+
+# set global versions
+echo "グローバルバージョンを設定しています..."
+asdf global ruby $RUBY_VERSION
+asdf global nodejs $NODE_VERSION
+
+echo "asdfの設定が完了しました"
 
 # create .vim directory
 mkdir -p ~/.vim/colors
