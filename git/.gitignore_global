@@ -13,5 +13,8 @@ tags
 **/.claude/*.local.*
 .serena/
 
+# rails
+rails_custom_log_formatter.rb
+
 # other
 mydocs/
