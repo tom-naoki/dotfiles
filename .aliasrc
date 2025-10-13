@@ -3,8 +3,9 @@ alias ..="cd ../"
 alias ....="cd ../../"
 alias ......="cd ../../../"
 alias home="cd ~/"
-alias other="cd /Users/kuratomi/Desktop/other"
-alias desktop="cd /Users/kuratomi/Desktop"
+alias desktop="cd ~/Desktop"
+alias workspace="cd ~/Desktop/workspace"
+alias other="cd ~/Desktop/other"
 
 # git
 alias g="git"
@@ -39,3 +40,6 @@ alias chrome="open -a /Applications/Google\ Chrome.app"
 alias pwd="pwd | pbcopy | pwd"
 alias findp="find . | peco"
 alias diff="diff --color -u"
+
+# .aliasrc.local
+source ~/.aliasrc.local
