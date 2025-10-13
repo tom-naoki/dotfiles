@@ -61,9 +61,6 @@
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
-  // enter 押下時にsuggestionを実行する
-  // "editor.acceptSuggestionOnEnter": "off",
-
   // prettier
   "prettier.jsxSingleQuote": true,
   // files
@@ -191,8 +188,6 @@
   "window.zoomLevel": 2,
   "git.openRepositoryInParentFolders": "never",
   "markdown-preview-github-styles.colorTheme": "light",
-  "editor.fontFamily": "Andale Mono",
-  // "workbench.colorTheme": "Tokyo Night Storm",
   "workbench.preferredHighContrastLightColorTheme": "Default Dark Modern",
   "githubPullRequests.pullBranch": "never",
   "security.promptForLocalFileProtocolHandling": false,
@@ -201,7 +196,7 @@
   "editor.experimentalEditContextEnabled": true,
   "github.copilot.chat.reviewSelection.enabled": false,
   "rubyLsp.rubyVersionManager": {
-    "identifier": "rbenv"
+    "identifier": "asdf"
   },
   "rubyLsp.enabledFeatures": {
     "codeActions": true,
@@ -230,7 +225,27 @@
   "settingsSync.ignoredExtensions": [],
   "settingsSync.ignoredSettings": [],
   "github.copilot.nextEditSuggestions.enabled": true,
-
+  "editor.fontFamily": "Andale Mono",
+  "terraform.mcp.server.enable": true,
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": true
+    },
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "git.autofetch": true,
+  "database-client.autoSync": true,
+  "[sql]": {
+    "editor.defaultFormatter": "cweijan.vscode-database-client2"
+  },
   // Multi-command configuration for Claude
   "multiCommand.commands": [
     {
