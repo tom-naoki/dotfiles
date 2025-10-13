@@ -224,5 +224,27 @@
   "settingsSync.keybindingsPerPlatform": false,
   "settingsSync.ignoredExtensions": [],
   "settingsSync.ignoredSettings": [],
-  "github.copilot.nextEditSuggestions.enabled": true
+  "github.copilot.nextEditSuggestions.enabled": true,
+
+  // Multi-command configuration for Claude
+  "multiCommand.commands": [
+    {
+      "command": "multiCommand.startClaudeInEditor",
+      "sequence": [
+        "workbench.action.terminal.new",
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "claude\n"
+          }
+        },
+        {
+          "command": "workbench.action.terminal.moveToEditor"
+        },
+        {
+          "command": "workbench.action.moveEditorToRightGroup"
+        }
+      ]
+    }
+  ]
 }
