@@ -70,7 +70,7 @@ backup_and_symlink() {
   fi
 }
 
-symlink links with backup
+# symlink links with backup
 backup_and_symlink "$SCRIPT_DIR/vim/.vimrc" ~/.vimrc
 backup_and_symlink "$SCRIPT_DIR/vim/colors" ~/.vim/colors
 backup_and_symlink "$SCRIPT_DIR/zsh/.zshrc" ~/.zshrc
