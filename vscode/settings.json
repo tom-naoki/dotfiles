@@ -84,34 +84,30 @@
   "workbench.startupEditor": "newUntitledFile",
   "workbench.colorCustomizations": {
     // https://glitchbone.github.io/vscode-base16-term/#/default-dark
-    "editor.selectionBackground": "#3a5f8f", // 選択範囲の背景色（青系でわかりやすく）
+    "editor.selectionBackground": "#3a5f8f",        // 選択範囲の背景色（青系でわかりやすく）
     "editor.selectionHighlightBackground": "#add6ff26", // 同じ単語のハイライト
-    "editor.inactiveSelectionBackground": "#3a3d4180", // 非アクティブ時の選択範囲
-    "terminal.background": "#151515",
-    "terminal.foreground": "#D0D0D0",
-    "terminalCursor.background": "#D0D0D0",
-    "terminalCursor.foreground": "#D0D0D0",
-    "terminal.ansiBlack": "#151515",
-    "terminal.ansiBlue": "#6A9FB5",
+    "editor.inactiveSelectionBackground": "#3a3d4180",  // 非アクティブ時の選択範囲
+    "terminal.background":"#151515",
+    "terminal.foreground":"#D0D0D0",
+    "terminalCursor.background":"#D0D0D0",
+    "terminalCursor.foreground":"#D0D0D0",
+    "terminal.ansiBlack":"#151515",
+    "terminal.ansiBlue":"#6A9FB5",
     "terminal.ansiBrightBlack": "#505050",
-    "terminal.ansiBrightBlue": "#6A9FB5",
-    "terminal.ansiBrightCyan": "#75B5AA",
-    "terminal.ansiBrightGreen": "#90A959",
-    "terminal.ansiBrightMagenta": "#AA759F",
-    "terminal.ansiBrightRed": "#AC4142",
-    "terminal.ansiBrightWhite": "#F5F5F5",
-    "terminal.ansiBrightYellow": "#F4BF75",
-    "terminal.ansiCyan": "#75B5AA",
-    "terminal.ansiGreen": "#90A959",
-    "terminal.ansiMagenta": "#AA759F",
-    "terminal.ansiRed": "#AC4142",
-    "terminal.ansiWhite": "#D0D0D0",
-    "contrastActiveBorder": "#F4BF75", // 選択されてるタブやファイルの枠の色
-    "editorGroupHeader.border": "#add6ff5b",
-    "editorGroupHeader.tabsBorder": "#add6ff2a",
-    "titleBar.border": "#add6ff80",
-    "sideBar.border": "#add6ff80"
-  },
+    "terminal.ansiBrightBlue":"#6A9FB5",
+    "terminal.ansiBrightCyan":"#75B5AA",
+    "terminal.ansiBrightGreen":"#90A959",
+    "terminal.ansiBrightMagenta":"#AA759F",
+    "terminal.ansiBrightRed":"#AC4142",
+    "terminal.ansiBrightWhite":"#F5F5F5",
+    "terminal.ansiBrightYellow":"#F4BF75",
+    "terminal.ansiCyan":"#75B5AA",
+    "terminal.ansiGreen":"#90A959",
+    "terminal.ansiMagenta":"#AA759F",
+    "terminal.ansiRed":"#AC4142",
+    "terminal.ansiWhite":"#D0D0D0",
+    "terminal.ansiYellow":"#F4BF75"
+},
   "workbench.iconTheme": "vscode-icons",
   "workbench.editor.wrapTabs": true,
 
@@ -124,7 +120,7 @@
   "less.validate": false,
 
   // terminal
-  "terminal.integrated.fontFamily": "Noto Mono for Powerline,Andale Mono",
+  "terminal.integrated.fontFamily": "Noto Mono for Powerline",
   "terminal.external.osxExec": "iTerm2.app",
   "terminal.integrated.copyOnSelection": true,
   "terminal.integrated.scrollback": 1000000,
@@ -191,8 +187,7 @@
   "window.zoomLevel": 2,
   "git.openRepositoryInParentFolders": "never",
   "markdown-preview-github-styles.colorTheme": "light",
-  "editor.fontFamily": "Andale Mono",
-  // "workbench.colorTheme": "Tokyo Night Storm",
+  "workbench.colorTheme": "Tokyo Night Storm",
   "workbench.preferredHighContrastLightColorTheme": "Default Dark Modern",
   "githubPullRequests.pullBranch": "never",
   "security.promptForLocalFileProtocolHandling": false,
