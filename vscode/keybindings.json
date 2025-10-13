@@ -665,22 +665,22 @@
 {
   "key": "shift+cmd+]",
   "command": "workbench.action.nextEditorInGroup",
-  "when": "!terminalFocus"
+  "when": "!terminalFocus || terminalEditorFocus"
 },
 {
   "key": "cmd+]",
-  "command": "workbench.action.focusRightGroup",
-  "when": "!terminalFocus"
+  "command": "workbench.action.focusNextGroup",
+  "when": "!terminalFocus || terminalEditorFocus"
 },
 {
   "key": "shift+cmd+[",
   "command": "workbench.action.previousEditorInGroup",
-  "when": "!terminalFocus"
+  "when": "!terminalFocus || terminalEditorFocus"
 },
 {
   "key": "cmd+[",
-  "command": "workbench.action.focusLeftGroup",
-  "when": "!terminalFocus"
+  "command": "workbench.action.focusPreviousGroup",
+  "when": "!terminalFocus || terminalEditorFocus"
 },
 {
   "key": "shift+cmd+o",
