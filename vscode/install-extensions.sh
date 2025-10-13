@@ -18,10 +18,11 @@ code --list-extensions | while read -r ext; do
 done
 
 #####################################################################
-# 2. リストから再インストール
-#####################################################################
+# # 2. リストから再インストール
+# #####################################################################
 echo "⬇  installing from ${LIST_FILE}..."
 grep -v '^\s*#' "$LIST_FILE" | while read -r ext; do
+  echo "$ext"
   [[ -z "$ext" ]] && continue   # 空行スキップ
   echo "  + $ext"
   code --install-extension "$ext" --force

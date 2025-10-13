@@ -48,15 +48,12 @@ export ASDF_LEGACY_VERSION_FILE="yes"
 # ====================
 # PATH環境変数設定
 # ====================
-
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
-export OBSIDNAN_PROJECT_PATH="$HOME/ghq/github.com/tom-naoki/obsidian"
-
 # Go
 export GOPATH="$HOME/go"
 export PATH="$PATH:$GOPATH/bin:$HOME"
+
+# Java
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 
 # diff-highlight
 export PATH="$PATH:/opt/homebrew/share/git-core/contrib/diff-highlight"
@@ -85,11 +82,7 @@ fi
 eval "$(direnv hook zsh)"
 
 # ====================
-# peco関連設定
-# ====================
-
-# ====================
-# ナビゲーション関連機能
+# peco/navigation設定
 # ====================
 
 # ----- コマンド履歴検索 (Ctrl + H) -----
@@ -100,17 +93,6 @@ function peco-history-selection() {
 }
 zle -N peco-history-selection
 bindkey '^H' peco-history-selection
-
-# ----- 最近使用したディレクトリに移動 (Ctrl + P) -----
-function peco-cdr () {
-    local selected_dir="$(cdr -l | sed 's/^[0-9]* *//' | peco --prompt "cdr ❯" --query "$LBUFFER")"
-    if [ -n "$selected_dir" ]; then
-        BUFFER="cd ${selected_dir}"
-        zle accept-line
-    fi
-}
-zle -N peco-cdr
-bindkey '^P' peco-cdr
 
 # ----- ghqリポジトリに移動 (Ctrl + G) -----
 function peco-ghq-cd() {

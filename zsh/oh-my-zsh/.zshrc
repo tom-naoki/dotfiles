@@ -106,10 +106,20 @@ source $ZSH/oh-my-zsh.sh
 # ====================
 # 元々作成している .zshrc (~/.zshrc.pre-oh-my-zsh) の読み込み
 # ====================
-source ~/.zshrc.pre-oh-my-zsh
+if [ -f ~/.zshrc.pre-oh-my-zsh ]; then
+  source ~/.zshrc.pre-oh-my-zsh
+fi
 
+# ====================
+# 所属組織固有の設定ファイルの読み込み
+# ====================
+if [ -f ~/.zshrc.company-specific ]; then
+  source ~/.zshrc.company-specific
+fi
 
 # ====================
 # 上書きする設定ファイル (zsh/oh-my-zsh/.zshrc.oh-my-zsh) の読み込み
 # ====================
-source ~/.zshrc.oh-my-zsh
+if [ -f ~/.zshrc.oh-my-zsh ]; then
+  source ~/.zshrc.oh-my-zsh
+fi
