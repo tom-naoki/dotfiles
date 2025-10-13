@@ -196,26 +196,6 @@
     "command": "-search.action.openResult",
     "when": "fileMatchOrMatchFocus && searchViewletVisible"
   },
-  {
-    "key": "ctrl+u",
-    "command": "extension.dash.specific",
-    "when": "editorTextFocus"
-  },
-  {
-    "key": "ctrl+h",
-    "command": "-extension.dash.specific",
-    "when": "editorTextFocus"
-  },
-  {
-    "key": "ctrl+alt+u",
-    "command": "extension.dash.all",
-    "when": "editorTextFocus"
-  },
-  {
-    "key": "ctrl+alt+h",
-    "command": "-extension.dash.all",
-    "when": "editorTextFocus"
-  },
   // {
   //   "key": "down",
   //   "command": "list.select",
@@ -485,33 +465,13 @@
     "command": "-workbench.action.files.newUntitledFile"
   },
   {
-    "key": "cmd+m",
-    "command": "Notes.newNote"
-  },
-  {
-    "key": "alt+n",
-    "command": "-Notes.newNote"
-  },
-  {
     "key": "cmd+n",
     "command": "workbench.action.files.newUntitledFile"
   },
   {
     "key": "shift+cmd+m",
-    "command": "notes.focus"
-  },
-  {
-    "key": "shift+cmd+m",
     "command": "-workbench.actions.view.problems",
     "when": "workbench.panel.markers.view.active"
-  },
-  {
-    "key": "shift+cmd+m",
-    "command": "Notes.listNotes"
-  },
-  {
-    "key": "alt+l",
-    "command": "-Notes.listNotes"
   },
   {
     "key": "shift+alt+m",
@@ -603,130 +563,154 @@
     "key": "ctrl+cmd+n",
     "command": "editor.action.insertCursorBelow",
     "when": "editorTextFocus"
-},
-{
+  },
+  {
     "key": "ctrl+enter",
     "command": "workbench.action.terminal.sendSequence",
     "args": {
-        "text": "\\\r\n"
+      "text": "\\\r\n"
     },
     "when": "terminalFocus"
-},
-{
-  "key": "cmd+[",
-  "command": "-editor.action.outdentLines",
-  "when": "editorTextFocus && !editorReadonly"
-},
-{
-  "key": "shift+cmd+[",
-  "command": "workbench.action.terminal.focusPreviousPane",
-  "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
-},
-{
-  "key": "alt+cmd+up",
-  "command": "-workbench.action.terminal.focusPreviousPane",
-  "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
-},
-{
-  "key": "shift+cmd+]",
-  "command": "workbench.action.terminal.focusNextPane",
-  "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
-},
-{
-  "key": "alt+cmd+right",
-  "command": "-workbench.action.terminal.focusNextPane",
-  "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
-},
-{
-  "key": "cmd+[",
-  "command": "workbench.action.terminal.focusPrevious",
-  "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
-},
-{
-  "key": "cmd+]",
-  "command": "workbench.action.terminal.focusNext",
-  "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
-},
-{
-  "key": "shift+cmd+]",
-  "command": "-workbench.action.terminal.focusNext",
-  "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
-},
-{
-  "key": "shift+cmd+[",
-  "command": "-workbench.action.terminal.focusPrevious",
-  "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
-},
-{
-  "key": "alt+cmd+left",
-  "command": "-workbench.action.terminal.focusPreviousPane",
-  "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
-},
-{
-  "key": "shift+cmd+]",
-  "command": "workbench.action.nextEditorInGroup",
-  "when": "!terminalFocus || terminalEditorFocus"
-},
-{
-  "key": "cmd+]",
-  "command": "workbench.action.focusNextGroup",
-  "when": "!terminalFocus || terminalEditorFocus"
-},
-{
-  "key": "shift+cmd+[",
-  "command": "workbench.action.previousEditorInGroup",
-  "when": "!terminalFocus || terminalEditorFocus"
-},
-{
-  "key": "cmd+[",
-  "command": "workbench.action.focusPreviousGroup",
-  "when": "!terminalFocus || terminalEditorFocus"
-},
-{
-  "key": "shift+cmd+o",
-  "command": "foam-vscode.open-daily-note",
-  "when": "config.workspaceKeybindings.obsidian_workspace.enabled"
-},
-{
-  "key": "alt+d",
-  "command": "-foam-vscode.open-daily-note",
-  "when": "config.workspaceKeybindings.obsidian_workspace.enabled"
-},
-{
-  "key": "cmd+shift+enter",
-  "command": "editor.action.revealDefinition",
-  "when": "editorTextFocus"
-},
-{
-  "key": "cmd+shift+l",
-  "command": "editor.action.openLink",
-  "when": "editorTextFocus && editorLangId == 'markdown'"
-},
-{
-  "key": "cmd+enter",
-  "command": "markdown.extension.checkTaskList",
-  "when": "editorTextFocus && editorLangId == 'markdown'"
-},
-{
+  },
+  {
+    "key": "cmd+[",
+    "command": "-editor.action.outdentLines",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "shift+cmd+[",
+    "command": "workbench.action.terminal.focusPreviousPane",
+    "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+  },
+  {
+    "key": "alt+cmd+up",
+    "command": "-workbench.action.terminal.focusPreviousPane",
+    "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+  },
+  {
+    "key": "shift+cmd+]",
+    "command": "workbench.action.terminal.focusNextPane",
+    "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+  },
+  {
+    "key": "alt+cmd+right",
+    "command": "-workbench.action.terminal.focusNextPane",
+    "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+  },
+  {
+    "key": "cmd+[",
+    "command": "workbench.action.terminal.focusPrevious",
+    "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
+  },
+  {
+    "key": "cmd+]",
+    "command": "workbench.action.terminal.focusNext",
+    "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
+  },
+  {
+    "key": "shift+cmd+]",
+    "command": "-workbench.action.terminal.focusNext",
+    "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
+  },
+  {
+    "key": "shift+cmd+[",
+    "command": "-workbench.action.terminal.focusPrevious",
+    "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
+  },
+  {
+    "key": "alt+cmd+left",
+    "command": "-workbench.action.terminal.focusPreviousPane",
+    "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+  },
+  {
+    "key": "shift+cmd+]",
+    "command": "workbench.action.nextEditorInGroup",
+    "when": "!terminalFocus || terminalEditorFocus"
+  },
+  {
+    "key": "cmd+]",
+    "command": "workbench.action.focusNextGroup",
+    "when": "!terminalFocus || terminalEditorFocus"
+  },
+  {
+    "key": "shift+cmd+[",
+    "command": "workbench.action.previousEditorInGroup",
+    "when": "!terminalFocus || terminalEditorFocus"
+  },
+  {
+    "key": "cmd+[",
+    "command": "workbench.action.focusPreviousGroup",
+    "when": "!terminalFocus || terminalEditorFocus"
+  },
+  {
+    "key": "shift+cmd+o",
+    "command": "foam-vscode.open-daily-note",
+    "when": "config.workspaceKeybindings.obsidian_workspace.enabled"
+  },
+  {
+    "key": "alt+d",
+    "command": "-foam-vscode.open-daily-note",
+    "when": "config.workspaceKeybindings.obsidian_workspace.enabled"
+  },
+  {
+    "key": "cmd+shift+enter",
+    "command": "editor.action.revealDefinition",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "cmd+shift+l",
+    "command": "editor.action.openLink",
+    "when": "editorTextFocus && editorLangId == 'markdown'"
+  },
+  {
+    "key": "cmd+enter",
+    "command": "markdown.extension.checkTaskList",
+    "when": "editorTextFocus && editorLangId == 'markdown'"
+  },
+  {
     "key": "shift+enter",
     "command": "workbench.action.terminal.sendSequence",
     "args": {
-        "text": "\\\r\n"
+      "text": "\\\r\n"
     },
     "when": "terminalFocus"
-},
-{
-  "key": "shift+cmd+v",
-  "command": "telesoho.MarkdownPaste",
-  "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$|^mdx$/"
-},
-{
-  "key": "alt+cmd+v",
-  "command": "-telesoho.MarkdownPaste",
-  "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$|^mdx$/"
-},
-{
-  "key": "alt+cmd+u",
-  "command": "multiCommand.startClaudeInEditor",
-}
+  },
+  {
+    "key": "shift+cmd+v",
+    "command": "telesoho.MarkdownPaste",
+    "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$|^mdx$/"
+  },
+  {
+    "key": "alt+cmd+v",
+    "command": "-telesoho.MarkdownPaste",
+    "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$|^mdx$/"
+  },
+  {
+    "key": "alt+cmd+u",
+    "command": "multiCommand.startClaudeInEditor"
+  },
+  {
+    "key": "ctrl+cmd+,",
+    "command": "editor.fold",
+    "when": "editorTextFocus && foldingEnabled"
+  },
+  {
+    "key": "alt+cmd+[",
+    "command": "-editor.fold",
+    "when": "editorTextFocus && foldingEnabled"
+  },
+  {
+    "key": "ctrl+cmd+.",
+    "command": "editor.unfold",
+    "when": "editorTextFocus && foldingEnabled"
+  },
+  {
+    "key": "alt+cmd+]",
+    "command": "-editor.unfold",
+    "when": "editorTextFocus && foldingEnabled"
+  },
+  {
+    "key": "shift+cmd+m",
+    "command": "markdown.showPreview"
+  }
 ]
