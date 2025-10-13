@@ -55,7 +55,7 @@
   email = kn.sf.258@gmail.com
 
 [include]
-  path = ~/.git/.gitconfig.local
+  path = ~/.gitconfig.local
 
 [core]
   editor = vim
