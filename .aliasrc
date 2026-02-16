@@ -14,6 +14,8 @@ alias gs="git status"
 alias gco="git checkout"
 alias g-createpr="git create-pr"
 alias g-root='cd "$(git rev-parse --show-toplevel)"'
+alias g-reset-stash='f(){ msg=$(git log -1 --pretty=%s); git reset --soft HEAD~ && git stash push -m "$msg"; }; f'
+alias g-rebase='git rebase -i $(git log --oneline --decorate | peco --prompt "REBASE TARGET >" | head -n 1 | awk "{print \$1}")^'
 
 # tig
 alias t="tig"
@@ -37,9 +39,13 @@ alias rm="rm -i"
 alias chrome="open -a /Applications/Google\ Chrome.app"
 
 # other
-alias pwd="pwd | pbcopy | pwd"
 alias findp="find . | peco"
 alias diff="diff --color -u"
 
+# difit
+alias difit="npx difit"
+alias difit-l="npx difit ."
+alias difit-log="npx difit \$(git log --oneline --decorate | peco --prompt 'COMMIT >' | head -n 1 | awk '{print \$1}')"
+alias difit-a="npx difit HEAD \$(git log --oneline --decorate | peco --prompt 'COMMIT >' | head -n 1 | awk '{print \$1}')"
 # .aliasrc.local
 source ~/.aliasrc.local
