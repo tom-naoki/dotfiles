@@ -8,6 +8,9 @@ tags
 # vscode
 .vscode/
 
+# cursor
+.cursorignore
+
 # claude
 # settings.local.json, project.local.mdなど
 **/.claude/*.local.*
