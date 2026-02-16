@@ -483,9 +483,15 @@
     "command": "-markdown.showPreviewToSide",
     "when": "!notebookEditorFocused && editorLangId == 'markdown'"
   },
+  // {
+  //   "key": "shift+cmd+c",
+  //   "command": "copyRelativeFilePath",
+  //   "when": "editorFocus"
+  // },
+  // 自作拡張: 相対パス+行番号をコピー
   {
     "key": "shift+cmd+c",
-    "command": "copyRelativeFilePath",
+    "command": "copyRelativePathWithLine",
     "when": "editorFocus"
   },
   {

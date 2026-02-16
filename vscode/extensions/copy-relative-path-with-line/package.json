@@ -1,0 +1,21 @@
+{
+  "name": "copy-relative-path-with-line",
+  "displayName": "Copy Relative Path with Line",
+  "description": "選択範囲の相対パスと行番号をクリップボードにコピーする",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "activationEvents": [
+    "onCommand:copyRelativePathWithLine"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "copyRelativePathWithLine",
+        "title": "Copy Relative Path with Line"
+      }
+    ]
+  }
+}
