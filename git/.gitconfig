@@ -46,6 +46,9 @@
   find-merge-pr-from-commit = "!sh -c 'commit=$0 && branch=${1:-HEAD} && (git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2'"
   show-merge-pr-from-commit = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
   create-pr = "!git config --get remote.origin.url | sed -e 's/.*github.com:\\(.*\\).git/\\1/' -e 's/.*github.com\\/\\(.*\\).git/\\1/' | xargs -I ORG echo 'https://github.com/ORG/compare/' | xargs -I PATH open PATH$(git tb)"
+  # delta config
+  d-s = -c delta.side-by-side=true diff
+  ds-s = -c delta.side-by-side=true diff --cached
 
 [grep]
   LineNumber = true
@@ -57,15 +60,38 @@
 [include]
   path = ~/.gitconfig.local
 
+# ====
+# use delta https://github.com/dandavison/delta
 [core]
-  editor = vim
-  excludesfile = ~/.gitignore_global
-	pager = less -FRX
+    editor = vim
+    excludesfile = ~/.gitignore_global
+    pager = delta
 
-[pager]
-  log = diff-highlight | less -FRX
-  show = diff-highlight | less -FRX
-  diff = diff-highlight | less -FRX
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
+    # side-by-side = true # use splite view
+    line-numbers = true # show line number
+
+[merge]
+    conflictStyle = diff3
+# ====
+#
+# ====
+# use less -FRX
+# [core]
+#   editor = vim
+#   excludesfile = ~/.gitignore_global
+# 	pager = less -FRX
+#
+# [pager]
+#   log = diff-highlight | less -FRX
+#   show = diff-highlight | less -FRX
+#   diff = diff-highlight | less -FRX
+# ====
 
 [url "git@github.com:"]
   insteadOf = https://github.com/
