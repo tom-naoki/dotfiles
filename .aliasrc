@@ -11,35 +11,24 @@ alias other="cd ~/Desktop/other"
 alias g="git"
 alias gd="git diff"
 alias gs="git status"
-alias gco="git checkout"
 alias g-createpr="git create-pr"
 alias g-root='cd "$(git rev-parse --show-toplevel)"'
+alias g-rebase='git rebase -i $(git log --oneline --decorate | peco --prompt "REBASE TARGET >" | head -n 1 | awk "{print \$1}")^'
 
-# tig
-alias t="tig"
-alias ti="tig"
-
-# rails
-alias rrn="rails runner"
+# difit
+alias difit="npx difit"
+alias difit-l="npx difit ."
+alias difit-log="npx difit \$(git log --oneline --decorate | peco --prompt 'COMMIT >' | head -n 1 | awk '{print \$1}')"
+alias difit-a="difit HEAD \$(git log --oneline --decorate | peco --prompt 'COMMIT >' | head -n 1 | awk '{print \$1}')"
 
 # bundler
 alias be="bundle exec"
-
-# rc
-alias vimrc="vim ~/.vimrc"
-alias zshrc="vim ~/.zshrc"
-alias aliasrc="vim ~/.aliasrc"
 
 # rm
 alias rm="rm -i"
 
 # open app
 alias chrome="open -a /Applications/Google\ Chrome.app"
-
-# other
-alias pwd="pwd | pbcopy | pwd"
-alias findp="find . | peco"
-alias diff="diff --color -u"
 
 # .aliasrc.local
 source ~/.aliasrc.local
