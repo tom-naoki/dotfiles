@@ -1,6 +1,9 @@
-# ====================
+# zsh の共通設定
+# .zshrc.oh-my-zsh の読み込み前に読み込む
+#
 # 基本環境設定
 # ====================
+#
 # エディタ設定
 export EDITOR=code
 export BUNDLER_EDITOR='code'
@@ -57,6 +60,9 @@ export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 
 # diff-highlight
 export PATH="$PATH:/opt/homebrew/share/git-core/contrib/diff-highlight"
+
+# local/bin
+export PATH="$HOME/.local/bin:$PATH"
 
 
 # ====================
