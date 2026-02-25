@@ -123,3 +123,5 @@ fi
 if [ -f ~/.zshrc.oh-my-zsh ]; then
   source ~/.zshrc.oh-my-zsh
 fi
+
+export PATH="$HOME/.local/bin:$PATH"

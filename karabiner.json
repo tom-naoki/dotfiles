@@ -857,6 +857,76 @@
                             "type": "basic"
                         }
                     ]
+                },
+                {
+                    "description": "Kindle app specific key mappings",
+                    "manipulators": [
+                        {
+                            "from": {
+                                "key_code": "l"
+                            },
+                            "to": [{ "key_code": "right_arrow" }],
+                            "conditions": [
+                                {
+                                    "bundle_identifiers": ["com.amazon.Lassen"],
+                                    "type": "frontmost_application_if"
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "from": {
+                                "key_code": "k"
+                            },
+                            "to": [{ "key_code": "right_arrow" }],
+                            "conditions": [
+                                {
+                                    "bundle_identifiers": ["com.amazon.Lassen"],
+                                    "type": "frontmost_application_if"
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "from": {
+                                "key_code": "h"
+                            },
+                            "to": [{ "key_code": "left_arrow" }],
+                            "conditions": [
+                                {
+                                    "bundle_identifiers": ["com.amazon.Lassen"],
+                                    "type": "frontmost_application_if"
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "from": {
+                                "key_code": "j"
+                            },
+                            "to": [{ "key_code": "left_arrow" }],
+                            "conditions": [
+                                {
+                                    "bundle_identifiers": ["com.amazon.Lassen"],
+                                    "type": "frontmost_application_if"
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "from": {
+                                "key_code": "i"
+                            },
+                            "to": [{ "key_code": "return_or_enter" }],
+                            "conditions": [
+                                {
+                                    "bundle_identifiers": ["com.amazon.Lassen"],
+                                    "type": "frontmost_application_if"
+                                }
+                            ],
+                            "type": "basic"
+                        }
+                    ]
                 }
             ]
         },
