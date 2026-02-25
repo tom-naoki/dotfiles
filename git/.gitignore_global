@@ -13,7 +13,10 @@ tags
 
 # claude
 # settings.local.json, project.local.mdなど
-**/.claude/*.local.*
+**/.claude/**/*.local.*
+**/.claude/**/*.local/
+CLAUDE.local.md
+.mcp.json
 .serena/
 
 # rails
