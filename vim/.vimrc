@@ -1,3 +1,12 @@
+" プラグイン
+call plug#begin('~/.vim/plugged')
+Plug 'airblade/vim-gitgutter'
+call plug#end()
+
+" git差分マークをガターに表示
+set signcolumn=yes
+set updatetime=100
+
 " 文字コードをUFT-8に設定
 set fenc=utf-8
 " スクロール速度を速く設定
@@ -6,8 +15,13 @@ set lazyredraw
 " vim のコピーをクリップボードに
 set clipboard+=unnamed
 
-" colorscheme設定
-colorscheme tender
+" colorscheme
+colorscheme default
+
+" GitGutterのサイン色を明示的に設定（VimEnterで全プラグイン読み込み後に適用）
+autocmd VimEnter,ColorScheme * highlight GitGutterAdd    ctermfg=green  ctermbg=NONE
+autocmd VimEnter,ColorScheme * highlight GitGutterChange ctermfg=yellow ctermbg=NONE
+autocmd VimEnter,ColorScheme * highlight GitGutterDelete ctermfg=red    ctermbg=NONE
 
 "行番号を表示
 set number
