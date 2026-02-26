@@ -15,30 +15,7 @@ setopt auto_cd
 # .aliasrc の読み込み
 source ~/.aliasrc
 
-# ターミナルパネルタイトルを変更
-function update_terminal_title() {
-  # Git リポジトリ名（末尾ディレクトリ）
-  local git_repo
-  git_repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || git_repo=""
-
-  # カレントディレクトリ名
-  local cwd_name="${PWD##*/}"
-
-  # タイトル組み立て
-  local title
-  if [[ -n "$git_repo" ]]; then
-    title="[$git_repo] $cwd_name"
-  else
-    title="$cwd_name"
-  fi
-
-  # VS Code / Cursor にタイトルを送る（OSC 0）
-  print -Pn "\e]0;$title\a"
-}
-
-# プロンプト実行のたびに呼ぶ
-autoload -Uz add-zsh-hook
-add-zsh-hook precmd update_terminal_title
+# ターミナルタイトルの設定は ~/.zshrc.ghostty-worktree の _set_terminal_title に統合済み
 
 # ====================
 # version

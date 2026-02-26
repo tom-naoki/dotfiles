@@ -15,6 +15,9 @@ alias g-createpr="git create-pr"
 alias g-root='cd "$(git rev-parse --show-toplevel)"'
 alias g-rebase='git rebase -i $(git log --oneline --decorate | peco --prompt "REBASE TARGET >" | head -n 1 | awk "{print \$1}")^'
 
+# git worktree (gtr)
+source ~/.worktreerc
+
 # difit
 alias difit="npx difit"
 alias difit-l="npx difit ."

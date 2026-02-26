@@ -23,3 +23,8 @@ DISABLE_AUTO_TITLE="true"
 
 # execute source
 source $ZSH/oh-my-zsh.sh
+
+# ====================
+# Ghostty / GitWorktree のための設定を読み込み
+# ====================
+source ~/.zshrc.ghostty-worktree

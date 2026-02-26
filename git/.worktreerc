@@ -1,0 +1,126 @@
+# git worktree (gtr) 関連のコマンド群
+#
+# 前提ツール:
+#   - git-worktree-runner (gtr): https://github.com/coderabbitai/git-worktree-runner
+#     `go install github.com/coderabbitai/git-worktree-runner/cmd/git-gtr@latest`
+#     git worktree のラッパー。ブランチ名から worktree パスを自動決定してくれる。
+#     本ファイルの gtr-list / gtr-rm / gtr-new は git gtr のさらなるラッパー。
+#   - peco: インタラクティブフィルタ。worktree の選択UIに使用。
+#   - jq: _setup_worktree_mcp での .mcp.json 生成に使用（なければスキップ）。
+#
+# mydocs について:
+#   各 worktree に mydocs/ ディレクトリを作成し、作業目的・進捗を記録する仕組み。
+#   - gtr-new 時: _setup_worktree_mydocs で mydocs/{worktree-info,worktree-purpose,worktree-progress}.md を生成
+#   - gtr-rm 時: _archive_worktree_mydocs で mydocs/ を ~/Desktop/Workspace/deleted-worktree-docs/ にアーカイブ
+#   - gtr-viewer: ~/worktree-mydocs-viewer で mydocs を閲覧
+#   ※ _setup_worktree_mydocs / _archive_worktree_mydocs / _setup_worktree_vscode_color は
+#     ~/.zshrc.ghostty-worktree (zsh/.zshrc.ghostty-worktree) で定義されている。
+#
+# 提供コマンド:
+#   gtr-list  - worktree 一覧から peco で選択して cd
+#   gtr-rm    - worktree を peco で選択して削除（mydocs アーカイブ付き）
+#   gtr-new   - worktree 作成 + vscode色設定 + MCP引き継ぎ + mydocs初期化 + cd
+#   gtr-viewer - worktree の mydocs をビューアで表示
+
+# メインリポジトリのルートパスを取得する共通関数
+_git_main_repo_root() {
+  local git_common_dir=$(git rev-parse --git-common-dir 2>/dev/null)
+  if [ "$git_common_dir" = ".git" ]; then
+    git rev-parse --show-toplevel
+  else
+    dirname "$git_common_dir"
+  fi
+}
+
+gtr-list() {
+  local main_root=$(_git_main_repo_root)
+  local selected
+  selected=$(cd "$main_root" && git gtr list --porcelain | awk -F'\t' '{printf "%-50s %s\n", $2, $1}' | peco --prompt "WORKTREE >")
+  if [ -n "$selected" ]; then
+    local dir
+    dir=$(echo "$selected" | awk '{print $NF}')
+    cd "$dir"
+  fi
+}
+
+gtr-rm() {
+  local main_root=$(_git_main_repo_root)
+  local selected
+  selected=$(cd "$main_root" && git gtr list --porcelain | awk -F'\t' '{printf "%-50s %s\n", $2, $1}' | peco --prompt "REMOVE WORKTREE >")
+  if [ -n "$selected" ]; then
+    local branch
+    branch=$(echo "$selected" | awk '{print $1}')
+    local wt_path
+    wt_path=$(echo "$selected" | awk '{print $NF}')
+
+    # 削除前に mydocs をアーカイブ
+    _archive_worktree_mydocs "$wt_path"
+
+    echo "Removing worktree: $branch"
+    (cd "$main_root" && git gtr rm "$branch")
+
+    cd "$main_root"
+  fi
+}
+
+# git gtr new のラッパー
+# worktree作成 → .vscode/settings.json生成 → cd
+gtr-new() {
+  if [ $# -eq 0 ]; then
+    echo "Usage: gtr-new <branch> [git gtr new options...]" >&2
+    return 1
+  fi
+
+  local branch="$1"
+  local main_root=$(_git_main_repo_root)
+
+  # メインリポジトリのルートから worktree を作成
+  (cd "$main_root" && git gtr new "$@") || return 1
+
+  # 作成された worktree のパスを取得して移動
+  local wt_path
+  wt_path=$(cd "$main_root" && git worktree list | grep "\[$branch\]" | awk '{print $1}')
+  if [ -z "$wt_path" ] || [ ! -d "$wt_path" ]; then
+    echo "Error: worktree のパスを取得できませんでした" >&2
+    return 1
+  fi
+
+  cd "$wt_path" || return 1
+
+  # .vscode/settings.json にタイトルバーの色を設定
+  _setup_worktree_vscode_color
+
+  # .mcp.json をメインリポジトリの設定から生成
+  _setup_worktree_mcp "$main_root"
+
+  # mydocs ディレクトリを作成し、worktree の目的を記録
+  _setup_worktree_mydocs
+}
+
+# メインリポジトリの MCP 設定を worktree に .mcp.json として配置
+_setup_worktree_mcp() {
+  local main_root="$1"
+  local claude_json="$HOME/.claude.json"
+
+  if [ ! -f "$claude_json" ]; then
+    return 0
+  fi
+
+  # jq がなければスキップ
+  if ! command -v jq &>/dev/null; then
+    echo "Warning: jq が見つからないため .mcp.json の生成をスキップしました" >&2
+    return 0
+  fi
+
+  # メインリポジトリの mcpServers を抽出
+  local mcp_servers
+  mcp_servers=$(jq -r --arg path "$main_root" '.projects[$path].mcpServers // empty' "$claude_json" 2>/dev/null)
+
+  if [ -n "$mcp_servers" ] && [ "$mcp_servers" != "{}" ]; then
+    echo "$mcp_servers" | jq '{mcpServers: .}' > .mcp.json
+    echo ".mcp.json を作成しました（メインリポジトリの MCP 設定を引き継ぎ）"
+  fi
+}
+
+# worktree 上の mydocs を表示
+alias gtr-viewer="~/worktree-mydocs-viewer/bin/worktree-mydocs-viewer.js"
