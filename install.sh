@@ -45,8 +45,9 @@ asdf global nodejs $NODE_VERSION
 
 echo "asdfの設定が完了しました"
 
-# create .vim directory
+# create directories
 mkdir -p ~/.vim/colors
+mkdir -p ~/.config/peco
 
 # backup and symlink function
 backup_and_symlink() {
@@ -82,6 +83,7 @@ backup_and_symlink "$SCRIPT_DIR/git/.gitconfig" ~/.gitconfig
 backup_and_symlink "$SCRIPT_DIR/git/.gitignore_global" ~/.gitignore_global
 backup_and_symlink "$SCRIPT_DIR/git/.worktreerc" ~/.worktreerc
 backup_and_symlink "$SCRIPT_DIR/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
+backup_and_symlink "$SCRIPT_DIR/peco/config.json" "$HOME/.config/peco/config.json"
 
 # install vim color
 rm -rf ~/Desktop/vim_color
