@@ -4,6 +4,7 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # install packges
+brew install --cask ghostty
 brew install asdf
 brew install direnv
 brew install tig
@@ -80,6 +81,7 @@ backup_and_symlink "$SCRIPT_DIR/tig/.tigrc" ~/.tigrc
 backup_and_symlink "$SCRIPT_DIR/git/.gitconfig" ~/.gitconfig
 backup_and_symlink "$SCRIPT_DIR/git/.gitignore_global" ~/.gitignore_global
 backup_and_symlink "$SCRIPT_DIR/git/.worktreerc" ~/.worktreerc
+backup_and_symlink "$SCRIPT_DIR/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
 
 # install vim color
 rm -rf ~/Desktop/vim_color

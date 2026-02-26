@@ -1,0 +1,64 @@
+# ========= 見た目・フォント =========
+theme = Moonfly
+font-size = 14
+# 行間の広さ
+adjust-cell-height = 10% 
+unfocused-split-opacity = 0.3
+
+# ========= ウィンドウ・透明度 =========
+# background-opacity = 0.75
+# background-blur-radius = 20
+
+# ========= ウィンドウ内の余白 =========
+window-padding-x = 20
+window-padding-y = 5
+window-padding-balance = true
+
+# ========= Macネイティブな挙動 =========
+# タイトルバーを透明にしてスッキリさせる
+macos-titlebar-style = transparent
+# フルスクリーン時にMac標準の挙動にする
+macos-window-shadow = true
+# 入力中はマウスカーソルを隠す
+mouse-hide-while-typing = true
+
+# ========= 操作性 =========
+# OptionキーをAltとして扱う
+macos-option-as-alt = true
+# 選択しただけでクリップボードにコピー
+copy-on-select = true
+# クリップボードの読み書きを許可
+clipboard-read = allow
+clipboard-write = allow
+
+# ========= キーバインド設定 =========
+
+# 「下に」分割
+#keybind = cmd+enter=new_split:down
+#keybind = cmd+d=new_split:down
+# 「右に」分割
+#keybind = cmd+shift+enter=new_split:right
+#keybind = cmd+shift+d=new_split:down
+# 分割した画面の「移動」
+keybind = cmd+shift+right=goto_split:left
+keybind = cmd+shift+left=goto_split:right
+keybind = cmd+shift+up=goto_split:top
+keybind = cmd+shift+down=goto_split:bottom
+# 分割サイズの「調整」
+# keybind = cmd+shift+left=resize_split:left,20
+# keybind = cmd+shift+right=resize_split:right,20
+# keybind = cmd+shift+up=resize_split:up,20
+# keybind = cmd+shift+down=resize_split:down,20
+
+# 現在の「ペイン（分割）」を閉じる
+keybind = cmd+w=close_surface
+
+# タブ移動とペイン移動を入れ替え
+# cmd+[ / cmd+] → タブ移動（デフォルトはペイン移動）
+keybind = cmd+left_bracket=previous_tab
+keybind = cmd+right_bracket=next_tab
+# shift+cmd+[ / shift+cmd+] → ペイン移動（デフォルトはタブ移動）
+keybind = shift+cmd+left_bracket=goto_split:previous
+keybind = shift+cmd+right_bracket=goto_split:next
+
+# ==============================
