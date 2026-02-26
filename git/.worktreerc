@@ -13,14 +13,19 @@
 #   - gtr-new 時: _setup_worktree_mydocs で mydocs/{worktree-info,worktree-purpose,worktree-progress}.md を生成
 #   - gtr-rm 時: _archive_worktree_mydocs で mydocs/ を ~/Desktop/Workspace/deleted-worktree-docs/ にアーカイブ
 #   - gtr-viewer: ~/worktree-mydocs-viewer で mydocs を閲覧
-#   ※ _setup_worktree_mydocs / _archive_worktree_mydocs / _setup_worktree_vscode_color は
-#     ~/.zshrc.ghostty-worktree (zsh/.zshrc.ghostty-worktree) で定義されている。
 #
 # 提供コマンド:
 #   gtr-list  - worktree 一覧から peco で選択して cd
 #   gtr-rm    - worktree を peco で選択して削除（mydocs アーカイブ付き）
 #   gtr-new   - worktree 作成 + vscode色設定 + MCP引き継ぎ + mydocs初期化 + cd
 #   gtr-viewer - worktree の mydocs をビューアで表示
+
+# ====================
+# 共通ユーティリティ
+# ====================
+
+# このファイルのディレクトリ（source 時に確定。テンプレート参照に使用）
+_WORKTREERC_DIR="${${(%):-%x}:A:h}"
 
 # メインリポジトリのルートパスを取得する共通関数
 _git_main_repo_root() {
@@ -31,6 +36,68 @@ _git_main_repo_root() {
     dirname "$git_common_dir"
   fi
 }
+
+# ブランチ名からworktree用の背景色を決定する関数
+#
+# HSLカラーモデルを使い、ブランチ名のハッシュ値から色相(Hue)を決定する
+# 彩度(S=40%)と明度(L=12%)は固定にして、暗い背景色を360色から選ぶ
+# 同じブランチ名なら常に同じ色になるため、視覚的に区別しやすい
+#
+# 引数: $1 - ブランチ名
+# 出力: "#rrggbb" 形式のカラーコード
+_worktree_bg_color() {
+  local branch="$1"
+  local hash=$(echo -n "$branch" | cksum | cut -d' ' -f1)
+
+  # Hue: 0-359（色相環をフルに使う）
+  local h=$((hash % 360))
+  # Saturation: 40%, Lightness: 12%（×10してスケーリング）
+  local s1=400
+  local l1=120
+
+  # HSL → RGB 変換（整数演算、×1000スケール）
+  # C = (1 - |2L - 1|) * S
+  local two_l_minus_1=$((2 * l1 - 1000))
+  [ $two_l_minus_1 -lt 0 ] && two_l_minus_1=$((-two_l_minus_1))
+  local c=$(( (1000 - two_l_minus_1) * s1 / 1000 ))
+
+  # H' = H / 60 → sector(0-5) + remainder(0-59)
+  local sector=$((h / 60))
+  local rem=$((h % 60))
+
+  # X = C * (1 - |H' mod 2 - 1|)
+  local x
+  if [ $((sector % 2)) -eq 0 ]; then
+    x=$((c * rem / 60))
+  else
+    x=$((c * (60 - rem) / 60))
+  fi
+
+  # (R1, G1, B1) based on sector
+  local r1 g1 b1
+  case $sector in
+    0) r1=$c; g1=$x; b1=0 ;;
+    1) r1=$x; g1=$c; b1=0 ;;
+    2) r1=0; g1=$c; b1=$x ;;
+    3) r1=0; g1=$x; b1=$c ;;
+    4) r1=$x; g1=0; b1=$c ;;
+    5) r1=$c; g1=0; b1=$x ;;
+  esac
+
+  # m = L - C/2
+  local m=$((l1 - c / 2))
+
+  # 0-255 に変換
+  local r=$(( (r1 + m) * 255 / 1000 ))
+  local g=$(( (g1 + m) * 255 / 1000 ))
+  local b=$(( (b1 + m) * 255 / 1000 ))
+
+  printf "#%02x%02x%02x" $r $g $b
+}
+
+# ====================
+# gtr コマンド
+# ====================
 
 gtr-list() {
   local main_root=$(_git_main_repo_root)
@@ -53,8 +120,8 @@ gtr-rm() {
     local wt_path
     wt_path=$(echo "$selected" | awk '{print $NF}')
 
-    # 削除前に mydocs をアーカイブ
-    _archive_worktree_mydocs "$wt_path"
+    # 削除前に mydocs をアーカイブ（関数が存在する場合のみ）
+    type _archive_worktree_mydocs &>/dev/null && _archive_worktree_mydocs "$wt_path"
 
     echo "Removing worktree: $branch"
     (cd "$main_root" && git gtr rm "$branch")
@@ -87,17 +154,67 @@ gtr-new() {
 
   cd "$wt_path" || return 1
 
-  # .vscode/settings.json にタイトルバーの色を設定
-  _setup_worktree_vscode_color
-
-  # .mcp.json をメインリポジトリの設定から生成
-  _setup_worktree_mcp "$main_root"
-
-  # mydocs ディレクトリを作成し、worktree の目的を記録
-  _setup_worktree_mydocs
+  # 各プラグインのセットアップ（関数が存在する場合のみ実行）
+  type _setup_worktree_vscode_color &>/dev/null && _setup_worktree_vscode_color
+  type _setup_worktree_mcp &>/dev/null && _setup_worktree_mcp "$main_root"
+  type _setup_worktree_mydocs &>/dev/null && _setup_worktree_mydocs
 }
 
+# ====================
+# [vscode] タイトルバー色
+# ====================
+# worktreeに .vscode/settings.json を生成してCursorタイトルバーの色を設定する
+#
+# ブランチ名に応じた背景色を算出し、.vscode/settings.json の
+# workbench.colorCustomizations に titleBar の色を書き込む
+# 既存の settings.json がある場合は jq でマージ、なければ新規作成
+#
+# 使い方: worktreeディレクトリで `_setup_worktree_vscode_color` を実行
+# 削除方法: この関数を削除するだけでOK（gtr-new は type ガードでスキップ）
+_setup_worktree_vscode_color() {
+  local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+  if [ -z "$branch" ]; then
+    echo "Error: ブランチ名を取得できませんでした" >&2
+    return 1
+  fi
+
+  local bg_color=$(_worktree_bg_color "$branch")
+
+  mkdir -p .vscode
+
+  if [ -f .vscode/settings.json ] && command -v jq &>/dev/null; then
+    # 既存の settings.json がありjqが使える場合はマージ
+    local tmp=$(mktemp)
+    jq --arg bg "$bg_color" '
+      . * {
+        "workbench.colorCustomizations": (
+          (.["workbench.colorCustomizations"] // {}) * {
+            "titleBar.activeBackground": $bg,
+            "titleBar.activeForeground": "#cccccc"
+          }
+        )
+      }
+    ' .vscode/settings.json > "$tmp" && mv "$tmp" .vscode/settings.json
+  else
+    # 新規作成 or jqがない場合
+    cat > .vscode/settings.json <<EOF
+{
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "${bg_color}",
+    "titleBar.activeForeground": "#cccccc"
+  }
+}
+EOF
+  fi
+
+  echo "Cursor titleBar color: ${bg_color} (branch: ${branch})"
+}
+
+# ====================
+# [mcp] MCP 設定引き継ぎ
+# ====================
 # メインリポジトリの MCP 設定を worktree に .mcp.json として配置
+# 削除方法: この関数を削除するだけでOK（gtr-new は type ガードでスキップ）
 _setup_worktree_mcp() {
   local main_root="$1"
   local claude_json="$HOME/.claude.json"
@@ -120,6 +237,155 @@ _setup_worktree_mcp() {
     echo "$mcp_servers" | jq '{mcpServers: .}' > .mcp.json
     echo ".mcp.json を作成しました（メインリポジトリの MCP 設定を引き継ぎ）"
   fi
+}
+
+# ====================
+# [mydocs] 作業記録
+# ====================
+# worktree に mydocs ディレクトリを作成し、目的を記録する
+#
+# 使い方: worktree ディレクトリで `_setup_worktree_mydocs` を実行
+# 削除方法: _setup_worktree_mydocs / _archive_worktree_mydocs / gtr-viewer を
+#           削除するだけでOK（gtr-new / gtr-rm は type ガードでスキップ）
+_setup_worktree_mydocs() {
+  local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+
+  mkdir -p mydocs
+
+  local purpose
+  if [ $# -gt 0 ]; then
+    purpose="$1"
+  else
+    echo ""
+    echo "この worktree でやりたいことを入力してください（空でEnterするとスキップ）:"
+    echo ""
+    read -r purpose
+    echo ""
+  fi
+
+  # PR情報を取得
+  local pr_section=""
+  if command -v gh &>/dev/null; then
+    local pr_info=$(gh pr list --head "$branch" --json title,url --limit 1 2>/dev/null)
+    if [ -n "$pr_info" ] && [ "$pr_info" != "[]" ]; then
+      local pr_title=$(echo "$pr_info" | jq -r '.[0].title')
+      local pr_url=$(echo "$pr_info" | jq -r '.[0].url')
+      if [ -n "$pr_title" ] && [ "$pr_title" != "null" ]; then
+        pr_section="PR: [$pr_title]($pr_url)"
+        echo "PR を検出しました: $pr_title"
+      fi
+    fi
+  fi
+
+  # worktree-info.md を作成
+  cat > mydocs/worktree-info.md <<EOF
+# INFO
+
+**Branch:** $branch
+**Created:** $(date '+%Y-%m-%d %H:%M')
+EOF
+  echo "mydocs/worktree-info.md を作成しました"
+
+  if [ -n "$purpose" ] || [ -n "$pr_section" ]; then
+    cat > mydocs/worktree-purpose.md <<EOF
+# PURPOSE
+
+$purpose
+EOF
+    if [ -n "$pr_section" ]; then
+      cat >> mydocs/worktree-purpose.md <<EOF
+
+$pr_section
+EOF
+    fi
+    echo "mydocs/worktree-purpose.md を作成しました"
+  else
+    echo "mydocs/ ディレクトリを作成しました（purpose はスキップ）"
+  fi
+
+  # worktree-progress.md を作成
+  cat > mydocs/worktree-progress.md <<EOF
+# PROGRESS
+
+- $(date '+%Y-%m-%d %H:%M') worktree作成
+EOF
+  echo "mydocs/worktree-progress.md を作成しました"
+
+  # CLAUDE.local.md を作成（Claude Code への指示）
+  # テンプレートは git/worktree/worktree-include/CLAUDE.local.md.template に定義
+  local template="$_WORKTREERC_DIR/worktree/worktree-include/CLAUDE.local.md.template"
+  if [ -f "$template" ]; then
+    cp "$template" CLAUDE.local.md
+    echo "CLAUDE.local.md を作成しました"
+  else
+    echo "Warning: テンプレートが見つかりません: $template" >&2
+  fi
+
+  # .claude/settings.local.json を作成（メインリポジトリの設定を引き継ぎ + worktree固有設定をマージ）
+  mkdir -p .claude
+  local main_root=$(_git_main_repo_root)
+  local main_settings="$main_root/.claude/settings.local.json"
+
+  if [ -f "$main_settings" ] && command -v jq &>/dev/null; then
+    # メインリポジトリの settings.local.json をベースに、worktree固有設定をマージ
+    jq '
+      .permissions.allow = (.permissions.allow + ["Edit(mydocs/**)"] | unique)
+      | .plansDirectory = "./mydocs/plans"
+    ' "$main_settings" > .claude/settings.local.json
+    echo ".claude/settings.local.json を作成しました（メインリポジトリの設定を引き継ぎ）"
+  else
+    # メインリポジトリに設定がない、またはjqがない場合は最小限の設定で新規作成
+    cat > .claude/settings.local.json <<'EOF'
+{
+  "permissions": {
+    "allow": [
+      "Edit(mydocs/**)"
+    ]
+  },
+  "plansDirectory": "./mydocs/plans"
+}
+EOF
+    echo ".claude/settings.local.json を作成しました（新規作成）"
+  fi
+}
+
+# worktree 削除時に mydocs をアーカイブする
+#
+# 引数: $1 - worktree のパス
+# 保存先: ~/Desktop/Workspace/deleted-worktree-docs/{org}/{repo}/{worktree名}_yyyymmdd/
+_archive_worktree_mydocs() {
+  local wt_path="$1"
+  local mydocs_path="$wt_path/mydocs"
+
+  if [ ! -d "$mydocs_path" ]; then
+    return 0
+  fi
+
+  # リポジトリ名を取得（origin の org/repo 形式）
+  local repo_name=$(cd "$wt_path" && git remote get-url origin 2>/dev/null | sed -E 's#\.git$##; s#.*[:/]([^/]+/[^/]+)$#\1#')
+  # worktree 名（ディレクトリ名）
+  local wt_name=$(basename "$wt_path")
+
+  # worktree-* を除いたアーカイブ対象を収集
+  local targets=()
+  for f in "$mydocs_path"/*(N); do
+    [[ "${f:t}" == worktree-* ]] && continue
+    targets+=("$f")
+  done
+
+  # 対象ファイルがなければ何もしない
+  if [ ${#targets[@]} -eq 0 ]; then
+    return 0
+  fi
+
+  local archive_dir="$HOME/Desktop/Workspace/deleted-worktree-docs/${repo_name}/${wt_name}_$(date '+%Y%m%d')"
+
+  mkdir -p "$archive_dir"
+  for f in "${targets[@]}"; do
+    cp -r "$f" "$archive_dir"/
+  done
+
+  echo "mydocs をアーカイブしました: $archive_dir"
 }
 
 # worktree 上の mydocs を表示

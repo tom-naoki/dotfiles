@@ -1,0 +1,133 @@
+# プロンプト・ターミナルタイトルのカスタマイズ
+#
+# 主な機能:
+#   - プロンプトにリポジトリ名・worktree情報を表示  [prompt]
+#   - Ghosttyのタブタイトルにリポジトリ名・ブランチ名を表示  [ghostty]
+#   - worktreeの場合はタブの背景色をブランチ名に応じて自動で色分け  [ghostty]
+# ====================
+
+# ====================
+# ユーティリティ関数
+# ====================
+
+# Git情報を取得する共通関数（プロンプトとタブタイトルで共有）
+#
+# 以下のグローバル変数にGitリポジトリの情報をセットする:
+#   _GIT_REPO_NAME     : リポジトリのディレクトリ名
+#   _GIT_BRANCH        : 現在のブランチ名
+#   _GIT_CURRENT_DIR   : リポジトリルートからの相対パス
+#   _GIT_AT_ROOT       : リポジトリルートにいるかどうか (true/false)
+#   _GIT_IS_WORKTREE   : worktreeかどうか (true/false)
+#   _GIT_MAIN_REPO_NAME: worktreeの場合、元リポジトリのディレクトリ名
+#
+# 戻り値: Gitリポジトリ内なら0、それ以外なら1
+_git_repo_info() {
+  if [ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]; then
+    local repo_path=$(git rev-parse --show-toplevel)
+    local git_dir=$(git rev-parse --git-dir 2>/dev/null)
+    local git_common_dir=$(git rev-parse --git-common-dir 2>/dev/null)
+
+    _GIT_REPO_NAME=$(basename "$repo_path")
+    _GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+    _GIT_CURRENT_DIR=$(pwd | sed "s|$repo_path/||")
+    _GIT_AT_ROOT=false
+    [ "$(pwd)" = "$repo_path" ] && _GIT_AT_ROOT=true
+    _GIT_IS_WORKTREE=false
+    _GIT_MAIN_REPO_NAME=""
+    # git-dirとgit-common-dirが異なる場合はworktreeと判定
+    # worktreeの場合、git-common-dirは元リポジトリの.gitディレクトリを指す
+    # 絶対パスに変換してから比較（相対パスと絶対パスの混在を防ぐ）
+    # 注意: $(cd ...) を使うとサブシェル内で chpwd_functions が発火し、
+    # _ghostty_report_pwd が誤ったディレクトリを報告してしまうため、
+    # zshの :A 修飾子（絶対パス変換+シンボリックリンク解決）を使用する
+    local git_dir_abs="${git_dir:A}"
+    local git_common_dir_abs="${git_common_dir:A}"
+    if [ "$git_dir_abs" != "$git_common_dir_abs" ]; then
+      _GIT_IS_WORKTREE=true
+      _GIT_MAIN_REPO_NAME=$(basename "$(dirname "$git_common_dir_abs")")
+    fi
+    return 0
+  else
+    return 1
+  fi
+}
+
+# ====================
+# プロンプト
+# ====================
+
+# eastwood テーマのパス表示部分をカスタマイズする関数
+#
+# 表示パターン:
+#   worktree（ルート）  : [wt:元リポ名]
+#   worktree（サブディレクトリ）: [wt:元リポ名:相対パス]
+#   通常リポ（ルート）  : [リポ名]
+#   通常リポ（サブディレクトリ）: [リポ名:相対パス]
+#   Git外              : [~/.../カレントパス]
+custom_path_display() {
+  if _git_repo_info; then
+    if [ "$_GIT_IS_WORKTREE" = "true" ]; then
+      if [ "$_GIT_AT_ROOT" = "true" ]; then
+        echo "[%{$fg[yellow]%}wt%{$fg[cyan]%}:${_GIT_MAIN_REPO_NAME}]"
+      else
+        echo "[%{$fg[yellow]%}wt%{$fg[cyan]%}:${_GIT_MAIN_REPO_NAME}:${_GIT_CURRENT_DIR}]"
+      fi
+    else
+      if [ "$_GIT_AT_ROOT" = "true" ]; then
+        echo "[${_GIT_REPO_NAME}]"
+      else
+        echo "[${_GIT_REPO_NAME}:${_GIT_CURRENT_DIR}]"
+      fi
+    fi
+  else
+    echo "[%~]"
+  fi
+}
+
+# eastwood テーマの上書き設定
+# git_custom_status の表示フォーマット（ブランチ名を緑の[]で囲み、変更ありなら赤*を付ける）
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[green]%}["
+ZSH_THEME_GIT_PROMPT_SUFFIX="]%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}*%{$fg[green]%}"
+ZSH_THEME_GIT_PROMPT_CLEAN=""
+
+# プロンプト: [カスタムパス表示][ブランチ名]$
+PROMPT='%{$fg[cyan]%}$(custom_path_display)%{$reset_color%}$(git_custom_status)%B$%b '
+
+# ====================
+# Ghostty タブタイトル & 背景色
+# ====================
+
+# Ghosttyタブタイトル & タブ背景色を設定する precmd フック
+#
+# コマンド実行のたびに呼ばれ、以下を行う:
+#   - タブタイトルをリポジトリ名+ブランチ名に設定
+#   - worktreeの場合はOSC 11でタブの背景色をブランチ固有の色に変更
+#   - 通常リポジトリ/Git外ではOSC 111でデフォルト背景色にリセット
+#
+# _worktree_bg_color は .worktreerc で定義。type ガード付きで呼ぶため、
+# .worktreerc が読み込まれていなくてもエラーにならない。
+_set_terminal_title() {
+  local title
+  if _git_repo_info; then
+    if [ "$_GIT_IS_WORKTREE" = "true" ]; then
+      title="[wt:${_GIT_MAIN_REPO_NAME}] ${_GIT_BRANCH}"
+      # worktreeの場合: ブランチ名に応じた背景色を設定（_worktree_bg_color が存在する場合のみ）
+      if type _worktree_bg_color &>/dev/null; then
+        local bg_color=$(_worktree_bg_color "$_GIT_BRANCH")
+        printf "\e]11;${bg_color}\a"
+      fi
+    else
+      title="[${_GIT_REPO_NAME}] ${_GIT_BRANCH}"
+      # 通常リポジトリ: デフォルトの背景色にリセット
+      printf "\e]111\a"
+    fi
+  else
+    title="${(%):-%~}"
+    # Git外: デフォルトの背景色にリセット
+    printf "\e]111\a"
+  fi
+  print -Pn "\e]0;${title}\a"
+}
+
+precmd_functions+=(_set_terminal_title)

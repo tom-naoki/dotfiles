@@ -76,7 +76,7 @@ backup_and_symlink() {
 backup_and_symlink "$SCRIPT_DIR/vim/.vimrc" ~/.vimrc
 backup_and_symlink "$SCRIPT_DIR/vim/colors" ~/.vim/colors
 backup_and_symlink "$SCRIPT_DIR/zsh/.zshrc" ~/.zshrc
-backup_and_symlink "$SCRIPT_DIR/zsh/.zshrc.ghostty-worktree" ~/.zshrc.ghostty-worktree
+backup_and_symlink "$SCRIPT_DIR/zsh/.zshrc.prompt-terminal" ~/.zshrc.prompt-terminal
 backup_and_symlink "$SCRIPT_DIR/.aliasrc" ~/.aliasrc
 backup_and_symlink "$SCRIPT_DIR/tig/.tigrc" ~/.tigrc
 backup_and_symlink "$SCRIPT_DIR/git/.gitconfig" ~/.gitconfig

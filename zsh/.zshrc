@@ -15,7 +15,7 @@ setopt auto_cd
 # .aliasrc の読み込み
 source ~/.aliasrc
 
-# ターミナルタイトルの設定は ~/.zshrc.ghostty-worktree の _set_terminal_title に統合済み
+# ターミナルタイトルの設定は ~/.zshrc.prompt-terminal の _set_terminal_title に統合済み
 
 # ====================
 # version
