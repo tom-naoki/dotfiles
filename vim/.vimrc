@@ -1,7 +1,36 @@
 " プラグイン
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
+Plug 'preservim/nerdtree'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 call plug#end()
+
+" LSP キーマッピング
+function! s:on_lsp_buffer_enabled() abort
+  setlocal omnifunc=lsp#complete
+  nmap <buffer> gd <plug>(lsp-definition)
+  nmap <buffer> gr <plug>(lsp-references)
+  nmap <buffer> K  <plug>(lsp-hover)
+  nmap <buffer> <Leader>rn <plug>(lsp-rename)
+  nmap <buffer> [d <plug>(lsp-previous-diagnostic)
+  nmap <buffer> ]d <plug>(lsp-next-diagnostic)
+endfunction
+
+augroup lsp_install
+  au!
+  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+" NERDTreeの表示切り替え
+nnoremap <Leader>b :NERDTreeToggle<CR>
+
+" 引数なし or ディレクトリを開いたときにNERDTreeを自動で開く
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) | execute 'NERDTree' argv()[0] | wincmd p | enew | wincmd p | endif
 
 " git差分マークをガターに表示
 set signcolumn=yes
@@ -22,6 +51,8 @@ colorscheme default
 autocmd VimEnter,ColorScheme * highlight GitGutterAdd    ctermfg=green  ctermbg=NONE
 autocmd VimEnter,ColorScheme * highlight GitGutterChange ctermfg=yellow ctermbg=NONE
 autocmd VimEnter,ColorScheme * highlight GitGutterDelete ctermfg=red    ctermbg=NONE
+" 検索ハイライトの色（黒背景 + 黄色文字）
+autocmd VimEnter,ColorScheme * highlight Search ctermfg=yellow ctermbg=black cterm=bold
 
 "行番号を表示
 set number
@@ -59,6 +90,8 @@ set ignorecase
 set smartcase
 " 検索文字列入力時に順次対象文字列にヒットさせる
 set incsearch
+" 検索結果をハイライト表示
+set hlsearch
 " 検索時に最後まで行ったら最初に戻る
 set wrapscan
 
@@ -69,8 +102,6 @@ noremap <C-e> <Esc>$
 noremap <C-a> <Esc>^
 vnoremap <C-e> $
 vnoremap <C-a> ^
-" ファイルタブを開く
-nnoremap <silent><C-f> :NERDTree<CR>
 " カッコ補完
 inoremap { {}<LEFT>
 inoremap ( ()<LEFT>
