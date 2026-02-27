@@ -75,6 +75,7 @@
     dark = true      # or light = true, or omit for auto-detection
     # side-by-side = true # use splite view
     line-numbers = true # show line number
+    pager = less -RFX
 
 [merge]
     conflictStyle = diff3
