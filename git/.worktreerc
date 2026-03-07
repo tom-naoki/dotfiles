@@ -16,6 +16,7 @@
 #
 # 提供コマンド:
 #   gtr-list  - worktree 一覧から peco で選択して cd
+#   gtr-cd    - worktree 名を部分一致で検索して cd
 #   gtr-rm    - worktree を peco で選択して削除（mydocs アーカイブ付き）
 #   gtr-new   - worktree 作成 + vscode色設定 + MCP引き継ぎ + mydocs初期化 + cd
 #   gtr-viewer - worktree の mydocs をビューアで表示
@@ -190,7 +191,12 @@ _setup_worktree_vscode_color() {
         "workbench.colorCustomizations": (
           (.["workbench.colorCustomizations"] // {}) * {
             "titleBar.activeBackground": $bg,
-            "titleBar.activeForeground": "#cccccc"
+            "titleBar.activeForeground": "#cccccc",
+            "activityBar.background": $bg,
+            "activityBar.foreground": "#cccccc",
+            "sideBar.background": $bg,
+            "statusBar.background": $bg,
+            "statusBar.foreground": "#cccccc"
           }
         )
       }
@@ -201,7 +207,12 @@ _setup_worktree_vscode_color() {
 {
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "${bg_color}",
-    "titleBar.activeForeground": "#cccccc"
+    "titleBar.activeForeground": "#cccccc",
+    "activityBar.background": "${bg_color}",
+    "activityBar.foreground": "#cccccc",
+    "sideBar.background": "${bg_color}",
+    "statusBar.background": "${bg_color}",
+    "statusBar.foreground": "#cccccc"
   }
 }
 EOF
@@ -386,6 +397,53 @@ _archive_worktree_mydocs() {
   done
 
   echo "mydocs をアーカイブしました: $archive_dir"
+}
+
+# ====================
+# gtr-cd コマンド
+# ====================
+# worktree 名（ブランチ名 or ディレクトリ名）を部分一致で検索して cd
+#
+# 使い方:
+#   gtr-cd habanero       # "habanero" を含む worktree に移動
+#   gtr-cd refactor       # "refactor" を含む worktree に移動
+#
+# 一致が1件なら即座に cd、複数件なら候補を表示、0件ならエラー
+gtr-cd() {
+  if [ $# -eq 0 ]; then
+    echo "Usage: gtr-cd <worktree名の一部>" >&2
+    return 1
+  fi
+
+  local pattern="$1"
+  local main_root=$(_git_main_repo_root)
+
+  # ブランチ名とパスの両方で部分一致検索（メインworktreeも含む）
+  local matches
+  matches=$(cd "$main_root" && git gtr list --porcelain | awk -F'\t' -v pat="$pattern" '
+    tolower($1) ~ tolower(pat) || tolower($2) ~ tolower(pat) {
+      printf "%s\t%s\n", $2, $1
+    }
+  ')
+
+  if [ -z "$matches" ]; then
+    echo "Error: '$pattern' に一致する worktree が見つかりません" >&2
+    return 1
+  fi
+
+  local count=$(echo "$matches" | wc -l | tr -d ' ')
+
+  if [ "$count" -eq 1 ]; then
+    local dir=$(echo "$matches" | cut -f2)
+    cd "$dir"
+  else
+    echo "'$pattern' に一致する worktree が複数あります:" >&2
+    echo "" >&2
+    echo "$matches" | awk -F'\t' '{printf "  %-50s %s\n", $1, $2}' >&2
+    echo "" >&2
+    echo "より具体的な名前を指定してください" >&2
+    return 1
+  fi
 }
 
 # worktree 上の mydocs を表示
