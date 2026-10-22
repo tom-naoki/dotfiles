@@ -21,7 +21,7 @@ asdf plugin add nodejs
 
 # set fixed versions
 RUBY_VERSION="3.4.6"
-NODE_VERSION="24.9.0"
+NODE_VERSION="24.22.1"
 
 echo "Rubyバージョン: $RUBY_VERSION"
 echo "Node.jsバージョン: $NODE_VERSION"
