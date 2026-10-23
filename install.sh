@@ -1,9 +1,10 @@
-#!/bin/zsh
+#!/bin/bash
+set -euo pipefail
 
-# スクリプトの先頭に追加
+# 呼び出し元の作業ディレクトリに依存せず、リポジトリの場所を取得する
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# install packges
+# 必要なツールをインストールする
 brew install --cask ghostty
 brew install asdf
 brew install direnv
@@ -16,8 +17,11 @@ brew install ghq
 
 # setup asdf
 echo "asdfのプラグインを追加しています..."
-asdf plugin add ruby
-asdf plugin add nodejs
+for plugin in ruby nodejs; do
+  if ! asdf plugin list | grep -qx "$plugin"; then
+    asdf plugin add "$plugin"
+  fi
+done
 
 # set fixed versions
 RUBY_VERSION="3.4.6"
@@ -28,8 +32,8 @@ echo "Node.jsバージョン: $NODE_VERSION"
 
 # install fixed versions
 echo "指定バージョンをインストールしています..."
-asdf install ruby $RUBY_VERSION
-asdf install nodejs $NODE_VERSION
+asdf install ruby "$RUBY_VERSION"
+asdf install nodejs "$NODE_VERSION"
 
 # create .tool-versions file
 echo ".tool-versionsファイルを作成しています..."
@@ -40,27 +44,35 @@ EOF
 
 # set global versions
 echo "グローバルバージョンを設定しています..."
-asdf global ruby $RUBY_VERSION
-asdf global nodejs $NODE_VERSION
+asdf set -u ruby "$RUBY_VERSION"
+asdf set -u nodejs "$NODE_VERSION"
 
 echo "asdfの設定が完了しました"
 
 # create directories
-mkdir -p ~/.vim/colors
+mkdir -p ~/.vim
 mkdir -p ~/.config/peco
 
 # backup and symlink function
 backup_and_symlink() {
-  local source=$1
-  local target=$2
+  local source="$1"
+  local target="$2"
   local backup_dir="$HOME/Desktop/setup-backup/dotfiles"
 
-  if [ -e "$target" ]; then
+  if [ -L "$target" ] && [ "$(readlink "$target")" = "$source" ]; then
+    echo "設定済みです: $target"
+    return
+  fi
+
+  mkdir -p "$(dirname "$target")"
+  if [ -e "$target" ] || [ -L "$target" ]; then
     echo "既存のファイルが見つかりました: $target"
     read -p "バックアップを取って上書きしますか？ (y/n): " answer
     if [ "$answer" = "y" ]; then
       mkdir -p "$backup_dir"
-      mv "$target" "$backup_dir/$(basename $target)"
+      local backup_path
+      backup_path="$(mktemp -d "$backup_dir/$(basename "$target").XXXXXX")"
+      mv "$target" "$backup_path/"
       ln -sf "$source" "$target"
       echo "バックアップを作成し、シンボリックリンクを設定しました"
     else
@@ -85,20 +97,7 @@ backup_and_symlink "$SCRIPT_DIR/git/.worktreerc" ~/.worktreerc
 backup_and_symlink "$SCRIPT_DIR/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
 backup_and_symlink "$SCRIPT_DIR/peco/config.json" "$HOME/.config/peco/config.json"
 
-# install vim color
-rm -rf ~/Desktop/vim_color
-mkdir -p ~/Desktop/vim_color
-git clone https://github.com/jacoborus/tender.vim.git ~/Desktop/vim_color/tender
-git clone https://github.com/tomasr/molokai ~/Desktop/vim_color/molokai
-git clone https://github.com/w0ng/vim-hybrid ~/Desktop/vim_color/vim-hybrid
-
-# move vim colors
-mv ~/Desktop/vim_color/tender/tender.vim ~/.vim/colors/
-mv ~/Desktop/vim_color/molokai/colors/molokai.vim ~/.vim/colors/
-mv ~/Desktop/vim_color/vim-hybrid/colors/hybrid.vim ~/.vim/colors/
-
-# cleanup
-rm -rf ~/Desktop/vim_color
+# Vimのカラースキームはリポジトリ内のvim/colorsを利用する。
 
 # add .gitconfig files
 mkdir -p ~/.git
@@ -106,5 +105,5 @@ touch ~/.git/.gitconfig.local
 
 # change shell (最後に実行)
 echo "シェルをzshに変更します..."
-chsh -s $(which zsh)
+chsh -s "$(command -v zsh)"
 echo "シェルの変更が完了しました。ターミナルを再起動してください。"
