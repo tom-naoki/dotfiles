@@ -15,6 +15,8 @@ tags
 # settings.local.json, project.local.mdなど
 **/.claude/**/*.local.*
 **/.claude/**/*.local/
+# 上限に近づいたときにClaude Codeが書く再開用のメモ
+**/.claude/RESUME.md
 CLAUDE.local.md
 .mcp.json
 .serena/
